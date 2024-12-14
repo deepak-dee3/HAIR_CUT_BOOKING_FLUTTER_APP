@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "919899865815",
+    "firebase_url": "https://haircutapp1-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "haircutapp1",
+    "storage_bucket": "haircutapp1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919899865815:android:5d619a2ed627b4e1fbe692",
+        "android_client_info": {
+          "package_name": "com.example.hair"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHWTRhwtfCeFI1vU1dy0iPfcVwyzMAGGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

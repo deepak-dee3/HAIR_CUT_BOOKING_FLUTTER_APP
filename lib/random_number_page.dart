@@ -63,22 +63,23 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
                 SizedBox(height: screenheight*0.08,),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child:Text('   Your Name           :   ${widget.name}',style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
+                  child:Text('   Your Name           :   ${widget.name}',overflow: TextOverflow.ellipsis,maxLines: 1,
+                  style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
                 ),
                 SizedBox(height: screenheight*0.05,),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child:Text('   Booked Date        :   ${widget.date}',style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
+                  child:Text('   Booked Date        :   ${widget.date}',overflow: TextOverflow.ellipsis,maxLines: 1,style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
                 ),
                 SizedBox(height: screenheight*0.05,),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child:Text('   Booked Number  :   ${widget.randomNumber}',style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
+                  child:Text('   Booked Number  :   ${widget.randomNumber}',overflow: TextOverflow.ellipsis,maxLines: 1,style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
                 ),
                  SizedBox(height: screenheight*0.05,),
                 Container(
                   alignment: Alignment.centerLeft,
-                  child:Text('   Admin Number    :   ${widget.adminNumber}',style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
+                  child:Text('   Admin Number    :   ${widget.adminNumber}',overflow: TextOverflow.ellipsis,maxLines: 1,style:TextStyle(color:const Color.fromARGB(255, 74, 25, 7),fontWeight: FontWeight.bold))
                 ),
 
               ],

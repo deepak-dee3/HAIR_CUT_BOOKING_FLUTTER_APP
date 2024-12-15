@@ -7,7 +7,8 @@ import 'package:hair/login.dart';
 import 'package:hair/payment.dart';
 import 'package:hair/random_number_page.dart';
 import 'package:hair/signin_login.dart';
-import 'package:hair/signup_login.dart'; // for generating random numbers
+import 'package:hair/signup_login.dart';
+import 'package:hair/status_of_booking.dart'; // for generating random numbers
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -308,7 +309,7 @@ class _AdminPageState extends State<AdminPage> {
           GestureDetector(
             child: Icon(Icons.password),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Page()));
             },
           )
         ],
@@ -457,6 +458,7 @@ class _AdminPageState extends State<AdminPage> {
     TextEditingController nameController = TextEditingController();
     String randomNumber = seats[index]["randomNumber"];
     String name = seats[index]["name"];
+    nameController.text = name;
 
     showDialog(
       context: context,
@@ -466,9 +468,15 @@ class _AdminPageState extends State<AdminPage> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Customer Name: $name'),
+              Text('Customer Name: $name',overflow: TextOverflow.ellipsis,maxLines: 1,),
+            //   TextField(
+            //   controller: nameController, // Ensure the TextField uses the controller
+            //   decoration: InputDecoration(
+            //     labelText: 'Customer Name',
+            //   ),
+            // ),
               SizedBox(height: 10),
-              Text('Random Number: $randomNumber'),
+              Text('Random Number: $randomNumber',overflow: TextOverflow.ellipsis,maxLines: 1,),
             ],
           ),
           actions: [
@@ -753,7 +761,9 @@ class _CustomerPageState extends State<CustomerPage> {
       appBar: AppBar(
         title: Text('Customer Seat Booking'),
         leading: GestureDetector(onTap:(){
-          
+          Navigator.push(context, MaterialPageRoute(builder: (context) => StatusOfBooking(userId: widget.userId)));
+           
+
         },
           child: Icon(Icons.book_rounded)),
       ),
@@ -839,6 +849,7 @@ class _CustomerPageState extends State<CustomerPage> {
   _showBookingDialog(int index, List seats, String timeOfDay) {
     TextEditingController nameController = TextEditingController();
     String randomNumber = _generateRandomNumber(); // Generate a random number
+     String cr = currentDate; 
 
     showDialog(
       context: context,
@@ -883,6 +894,10 @@ class _CustomerPageState extends State<CustomerPage> {
                   adminNumber: "9999999999",
                 ),
               ));
+                FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
+    'initial_random_number': randomNumber,
+    'date':cr,
+  });
 
               },
               child: Text('Book Seat'),
@@ -892,6 +907,8 @@ class _CustomerPageState extends State<CustomerPage> {
       },
     );
   }
+
+ 
 
   // Generate a random number for the customer
   String _generateRandomNumber() {

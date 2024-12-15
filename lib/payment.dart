@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-class MainPage extends StatelessWidget {
+class Payment_Page extends StatelessWidget {
   // Function to open Google Pay app
   void openGooglePay() async {
     final Uri googlePayUri = Uri.parse('https://gpay.app.goo.gl/'); // Google Pay link

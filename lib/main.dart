@@ -752,6 +752,10 @@ class _CustomerPageState extends State<CustomerPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Customer Seat Booking'),
+        leading: GestureDetector(onTap:(){
+          
+        },
+          child: Icon(Icons.book_rounded)),
       ),
       body: ListView(
         children: [
@@ -869,6 +873,17 @@ class _CustomerPageState extends State<CustomerPage> {
                 });
 
                 Navigator.of(context).pop(); // Close the dialog
+
+               
+                 Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => RandomNumberPage(
+                  name: nameController.text,
+                  randomNumber: randomNumber,
+                  date: currentDate,
+                  adminNumber: "9999999999",
+                ),
+              ));
+
               },
               child: Text('Book Seat'),
             ),

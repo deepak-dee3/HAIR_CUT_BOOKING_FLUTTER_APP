@@ -899,6 +899,30 @@ class _CustomerPageState extends State<CustomerPage> {
     'date':cr,
   });
 
+  //               FirebaseFirestore.instance.collection('users_history').doc(widget.userId).set({
+    
+  //   '1':cr,
+  // });
+
+   final docRef = FirebaseFirestore.instance.collection('users_history').doc(widget.userId);
+
+               docRef.get().then((docSnapshot) async {
+                if (docSnapshot.exists) {
+                  // Document exists, find the next field name
+                  Map<String, dynamic>? data = docSnapshot.data();
+
+                  if (data != null) {
+                    int nextIndex = data.keys.map((key) => int.tryParse(key) ?? 0).fold(0, (a, b) => a > b ? a : b) + 1;
+
+                    // Add the new date field
+                    await docRef.update({'$nextIndex': cr});
+                  }
+                } else {
+                  // Document does not exist, create it with the first field
+                  await docRef.set({'1': cr});
+                }
+              });
+
               },
               child: Text('Book Seat'),
             ),

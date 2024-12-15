@@ -41,6 +41,12 @@ class AuthService extends StatelessWidget {
         'initial_random_number':0,
         'date':"Not Yet Started",
       });
+      // await FirebaseFirestore.instance.collection('users_history').doc(userCredential.user!.uid).set({
+        
+      //   '0':"0",
+        
+      // });
+      await FirebaseFirestore.instance.collection('users_history').doc(userCredential.user!.uid);
 
       return userCredential.user;
     } catch (e) {

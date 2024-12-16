@@ -12,6 +12,7 @@ import 'package:hair/signup_login.dart';
 import 'package:hair/status_of_booking.dart';
 import 'package:hair/testing/booking_pags.dart'; // for generating random numbers
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -321,19 +322,19 @@ class _AdminPageState extends State<AdminPage> {
           GestureDetector(
             child: Icon(Icons.sign_language),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
+             // Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
             },
           ),
           GestureDetector(
             child: Icon(Icons.blender_outlined),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AuthService()));
+             // Navigator.push(context, MaterialPageRoute(builder: (context) => AuthService()));
             },
           ),
           GestureDetector(
             child: Icon(Icons.password),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Page()));
+             // Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Page()));
             },
           )
         ],
@@ -640,11 +641,13 @@ class _AdminPageState extends State<AdminPage> {
               child: Container(
                 height: screenheight * 0.33, // Fixed height for the scrollable container
                 decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 220, 154, 55),
                   borderRadius: BorderRadius.circular(15),
                   // border: Border.all(color: Colors.grey, width: 1),
                 ),
                 child: SingleChildScrollView(
                   child: GridView.builder(
+                    padding: EdgeInsets.all(10),
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(), // Disable GridView's scrolling
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -1042,9 +1045,15 @@ class _CustomerPageState extends State<CustomerPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
 
+
+
   @override
   Widget build(BuildContext context) {
+     var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth = MediaQuery.of(context).size.width;
+   
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Customer Seat Booking'),
         leading: GestureDetector(onTap:(){
@@ -1056,79 +1065,287 @@ class _CustomerPageState extends State<CustomerPage> {
       ),
       body: ListView(
         children: [
-          _buildTimeslotSection("Morning"),
-          _buildTimeslotSection("Noon"),
-          _buildTimeslotSection("Evening"),
-          _buildTimeslotSection("Night"),
+          Padding(padding: EdgeInsets.only(left: 16,right: 16),
+            child: Container(
+              height: screenheight*0.13,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Color(0xFF681E1E),
+              ),
+              child: Align(alignment: Alignment.center,
+                child: Container(
+                  child:Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),)
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenheight*0.04,),
+
+          Padding(padding: EdgeInsets.only(left: 16,right: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                 color: const Color.fromARGB(255, 220, 154, 55),
+                 borderRadius: BorderRadius.circular(20)
+              ),
+              height: screenheight*0.2,
+             
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  
+                  children: [
+                
+                    Padding(padding: EdgeInsets.only(left: 16,right: 16),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                         Row(children:[ 
+                         CircleAvatar(radius: 10,backgroundColor: Colors.grey,),
+                         SizedBox(width: screenwidth*0.03,),
+                         Text('Available',style: TextStyle(fontWeight: FontWeight.bold),)
+                         ]),
+                      Row(children:[ 
+                        CircleAvatar(radius: 10,backgroundColor: Color.fromARGB(255, 229, 225, 10),),
+                        SizedBox(width: screenwidth*0.03,),
+                        Text('Requested',style: TextStyle(fontWeight: FontWeight.bold),)
+                        ]),]),
+                    ),
+                
+                    SizedBox(height: screenheight*0.03,),
+                
+                       Padding(padding: EdgeInsets.only(left: 16,right: 16),
+                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                         Row(children:[ 
+                         CircleAvatar(radius: 10,backgroundColor: Colors.blue,),
+                         SizedBox(width: screenwidth*0.03,),
+                         Text('Approved',style: TextStyle(fontWeight: FontWeight.bold),)
+                         ]),
+                                         Row(children:[ 
+                                           CircleAvatar(radius: 10,backgroundColor: Colors.green,),
+                                           SizedBox(width: screenwidth*0.03,),
+                                           Text('Completed',style: TextStyle(fontWeight: FontWeight.bold),)
+                                           ]),]),
+                       ),
+                       SizedBox(height: screenheight*0.03,),
+                          
+                          
+                          Padding(padding: EdgeInsets.only(left: 40,right: 16),child: Align(alignment: Alignment.centerLeft,
+                            child: Row(
+                              children:[ 
+                              
+                              CircleAvatar(radius: 10,backgroundColor: Colors.red,),
+                              SizedBox(width: screenwidth*0.03,),
+                              Text('Rejected',style: TextStyle(fontWeight: FontWeight.bold),),
+                              
+                              
+                              ])),)
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenheight*0.04,),
+          _buildTimeslotSection("Morning","06:00 am - 09:59 am"),
+          _buildTimeslotSection("Noon","10:00 am - 03:59 pm"),
+          _buildTimeslotSection("Evening","04:00 pm - 06:59 pm"),
+          _buildTimeslotSection("Night","7:00 pm - 09:00 pm"),
         ],
       ),
     );
   }
 
   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
-  Widget _buildTimeslotSection(String timeslot) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$timeslot: 20 seats',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          StreamBuilder<DocumentSnapshot>(
-            stream: _firestore
-                .collection(currentDate)
-                .doc(timeslot)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              }
+  Widget _buildTimeslotSection(String timeslot,timings) {
+    var screenheight = MediaQuery.of(context).size.height;
+  var screenwidth = MediaQuery.of(context).size.width;
 
-              if (!snapshot.data!.exists) {
-                return Center(child: CircularProgressIndicator());
-              }
-
-              var seatData = snapshot.data!['seats'] ?? [];
-              return Column(
-                children: [
-                  GridView.builder(
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5,
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0,
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+         Padding(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Container(
+          
+          height: screenheight * 0.07,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: screenheight * 0.06,
+                width: screenwidth * 0.3,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: const Color(0xFF681E1E),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '    $timeslot',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
-                    itemCount: seatData.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: seatData[index]["status"] == "Pending"
-                            ? () => _showBookingDialog(index, seatData, timeslot)
-                            : null, // Make it unclickable if already booked
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: _getSeatColor(seatData[index]["status"]),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            '${index + 1}',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
                   ),
-                ],
-              );
-            },
+                ),
+              ),
+              SizedBox(width: screenwidth * 0.05),
+              // GestureDetector(
+              //  // onTap: () => _addNewSeats(timeslot),
+              //   child: CircleAvatar(
+              //     radius: 25,
+              //     backgroundColor: const Color.fromARGB(255, 220, 154, 55),
+              //     child: Icon(
+              //       Icons.person_add_alt_1_rounded,
+              //       color: Color(0xFF681E1E),
+              //     ),
+              //   ),
+              // )
+              Container(
+                height: screenheight * 0.06,
+                width: screenwidth * 0.568,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: const Color(0xFF681E1E),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '    $timings    ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
+      SizedBox(height: screenheight * 0.02),
+        // Text(
+        //   '$timeslot: 20 seats',
+        //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        // ),
+        // Padding(padding: EdgeInsets.only(left: 16, right: 16),
+        //   child: StreamBuilder<DocumentSnapshot>(
+        //     stream: _firestore
+        //         .collection(currentDate)
+        //         .doc(timeslot)
+        //         .snapshots(),
+        //     builder: (context, snapshot) {
+        //       if (!snapshot.hasData) {
+        //         return Center(child: CircularProgressIndicator());
+        //       }
+              
+        //       if (!snapshot.data!.exists) {
+        //         return Center(child: CircularProgressIndicator());
+        //       }
+              
+        //       var seatData = snapshot.data!['seats'] ?? [];
+        //       return Column(
+        //         children: [
+        //           GridView.builder(
+        //             shrinkWrap: true,
+        //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //               crossAxisCount: 15,
+        //               mainAxisSpacing: 8.0,
+        //               crossAxisSpacing: 8.0,
+        //             ),
+        //             itemCount: seatData.length,
+        //             itemBuilder: (context, index) {
+        //               return GestureDetector(
+        //                 onTap: seatData[index]["status"] == "Pending"
+        //                     ? () => _showBookingDialog(index, seatData, timeslot)
+        //                     : null, // Make it unclickable if already booked
+        //                 child: Container(
+        //                   alignment: Alignment.center,
+        //                   decoration: BoxDecoration(
+        //                     color: _getSeatColor(seatData[index]["status"]),
+        //                     borderRadius: BorderRadius.circular(20),
+        //                   ),
+        //                   child: Text(
+        //                     '${index + 1}',
+        //                     style: TextStyle(
+        //                       color: Colors.white,
+        //                       fontSize: 16,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               );
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     },
+        //   ),
+        // ),
+        Padding(
+  padding: EdgeInsets.only(left: 16, right: 16),
+  child: StreamBuilder<DocumentSnapshot>(
+    stream: _firestore.collection(currentDate).doc(timeslot).snapshots(),
+    builder: (context, snapshot) {
+      if (!snapshot.hasData || !snapshot.data!.exists) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      var seatData = snapshot.data!['seats'] ?? [];
+      
+      return Padding(padding: EdgeInsets.all(16),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.33, // Fixed height
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 220, 154, 55),
+            //border: Border.all(color: Colors.grey), // Add a border for visual distinction
+            borderRadius: BorderRadius.circular(15), // Rounded corners
+            //color: Colors.white, // Optional background color
+          ),
+          child: SingleChildScrollView(
+            child: GridView.builder(
+              padding: EdgeInsets.all(10),
+              
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(), // Disable GridView's internal scrolling
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5, // Number of columns
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+              ),
+              itemCount: seatData.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: seatData[index]["status"] == "Pending"
+                      ? () => _showBookingDialog(index, seatData, timeslot)
+                      : null, // Make it unclickable if already booked
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: _getSeatColor(seatData[index]["status"]),
+                      borderRadius: BorderRadius.circular(20), // Seat styling
+                    ),
+                    child: Text(
+                      '${index + 1}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+    },
+  ),
+),
+SizedBox(height: screenheight*0.02,)
+
+      ],
     );
   }
 
@@ -1231,15 +1448,18 @@ class _CustomerPageState extends State<CustomerPage> {
   Color _getSeatColor(String status) {
     switch (status) {
       case 'Requested':
-        return Colors.orange;
+        return const Color.fromARGB(255, 229, 225, 10);
       case 'Approved':
-        return Colors.green;
+        return Colors.blue;
       case 'Removed':
-        return Colors.grey;
+        return Colors.red;
       case 'Completed':
-        return Colors.pink; // Completed status color
+        return Colors.green; // Completed status color
       default:
-        return Colors.blue; // Pending status
+        return Colors.grey; // Pending status
     }
   }
 }
+
+
+

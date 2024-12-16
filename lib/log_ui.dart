@@ -1,9 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:hair/signup_login.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SignInUpPage extends StatelessWidget {
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Sign up with email, password, and age
+  Future<User?> signUpWithEmailPassword(String email, String password, String age) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Create a document for the user in Firestore under the 'users' collection
+      await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+        'email': email,
+        'age': age,
+        'initial_random_number': 0,
+        'date': "Not Yet Started",
+      });
+
+      // Initialize user history in Firestore
+      await FirebaseFirestore.instance.collection('users_history').doc(userCredential.user!.uid);
+
+      return userCredential.user;
+    } catch (e) {
+      print('Error signing up: $e');
+      return null;
+    }
+  }
+
+  // Sign in with email and password
+  Future<User?> signInWithEmailPassword(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user;
+    } catch (e) {
+      print('Error signing in: $e');
+      return null;
+    }
+  }
+}
+
+
+class SignInUpPage extends StatefulWidget {
   const SignInUpPage({Key? key}) : super(key: key);
 
+  @override
+  State<SignInUpPage> createState() => _SignInUpPageState();
+}
+
+class _SignInUpPageState extends State<SignInUpPage> {
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final AuthService _authService = AuthService();
+  
   @override
   Widget build(BuildContext context) {
     var screenheight = MediaQuery.of(context).size.height;
@@ -17,6 +77,7 @@ class SignInUpPage extends StatelessWidget {
           children: [
             // Background Container
             Container(
+             
               height: screenheight*0.4,
               decoration: const BoxDecoration(
                 color: Color(0xFF681E1E), // Dark Red
@@ -33,7 +94,7 @@ class SignInUpPage extends StatelessWidget {
               left: 30,
               right: 30,
               child: Container(
-                height: screenheight*0.55,
+                height: screenheight*0.7,
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -71,6 +132,7 @@ class SignInUpPage extends StatelessWidget {
 
                     // Email Field
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: 'Email',
                         filled: true,
@@ -86,6 +148,7 @@ class SignInUpPage extends StatelessWidget {
 
                     // Password Field
                     TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -105,26 +168,67 @@ class SignInUpPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                     SizedBox(height: screenheight*0.03,),
+
+                    // Password Field
+                    TextField(
+                      controller: _nameController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: 'Name',
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        suffixIcon: const Icon(Icons.lock_outline,shadows: [
+                          Shadow(
+                            color: Color(0xFF681E1E),
+                            //blurRadius: 3,
+                            
+                          )
+                        ],),
+                       
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    
                      SizedBox(height: screenheight*0.053,),
 
                     // Log In Button
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF681E1E), // Dark Red
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'ENTER',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: () async {
+                User? user = await _authService.signUpWithEmailPassword(
+                  _emailController.text,
+                  _passwordController.text,
+                  _nameController.text,
+                );
+                if (user != null) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => UserDashboard(userId: user.uid)),
+                  );
+                }
+              },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF681E1E), // Dark Red
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'ENTER',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    
                      SizedBox(height: screenheight*0.05,),
                   ],
                 ),
@@ -188,9 +292,18 @@ class SignInUpPage extends StatelessWidget {
 
 
 
-class LogInUpPage extends StatelessWidget {
+class LogInUpPage extends StatefulWidget {
   const LogInUpPage({Key? key}) : super(key: key);
 
+  @override
+  State<LogInUpPage> createState() => _LogInUpPageState();
+}
+
+class _LogInUpPageState extends State<LogInUpPage> {
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
     var screenheight = MediaQuery.of(context).size.height;
@@ -258,6 +371,7 @@ class LogInUpPage extends StatelessWidget {
 
                     // Email Field
                     TextField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: 'Email',
                         filled: true,
@@ -273,6 +387,7 @@ class LogInUpPage extends StatelessWidget {
 
                     // Password Field
                     TextField(
+                      controller: _passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: 'Password',
@@ -289,19 +404,33 @@ class LogInUpPage extends StatelessWidget {
 
 
                     // Log In Button
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF681E1E), // Dark Red
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'ENTER',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                    GestureDetector(
+                      onTap: () async {
+                User? user = await _authService.signInWithEmailPassword(
+                  _emailController.text,
+                  _passwordController.text,
+                );
+                if (user != null) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => UserDashboard(userId: user.uid)),
+                  );
+                }
+              },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF681E1E), // Dark Red
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'ENTER',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),

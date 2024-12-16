@@ -2,13 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hair/forget_password.dart';
+import 'package:hair/log_ui.dart';
 import 'dart:math';
 import 'package:hair/login.dart';
 import 'package:hair/payment.dart';
 import 'package:hair/random_number_page.dart';
 import 'package:hair/signin_login.dart';
 import 'package:hair/signup_login.dart';
-import 'package:hair/status_of_booking.dart'; // for generating random numbers
+import 'package:hair/status_of_booking.dart';
+import 'package:hair/testing/booking_pags.dart'; // for generating random numbers
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -286,6 +288,8 @@ class MyApp extends StatelessWidget {
 //     }
 //   }
 // }
+
+///////////////////////////////////////////////////////////////////////////imp////////////////////////////////
 class AdminPage extends StatefulWidget {
   @override
   _AdminPageState createState() => _AdminPageState();
@@ -297,9 +301,29 @@ class _AdminPageState extends State<AdminPage> {
 
   @override
   Widget build(BuildContext context) {
+     var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        leading: GestureDetector(onTap:(){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()));
+
+        }
+          ,child: Icon(Icons.abc_outlined)),
         actions: [
+          GestureDetector(
+            child: Icon(Icons.login),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LogInUpPage()));
+            },
+          ),
+          GestureDetector(
+            child: Icon(Icons.sign_language),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
+            },
+          ),
           GestureDetector(
             child: Icon(Icons.blender_outlined),
             onTap: () {
@@ -317,6 +341,86 @@ class _AdminPageState extends State<AdminPage> {
       ),
       body: ListView(
         children: [
+          Padding(padding: EdgeInsets.only(left: 16,right: 16),
+            child: Container(
+              height: screenheight*0.13,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Color(0xFF681E1E),
+              ),
+              child: Align(alignment: Alignment.center,
+                child: Container(
+                  child:Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),)
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenheight*0.04,),
+
+          Padding(padding: EdgeInsets.only(left: 16,right: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                 color: const Color.fromARGB(255, 220, 154, 55),
+                 borderRadius: BorderRadius.circular(20)
+              ),
+              height: screenheight*0.2,
+             
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  
+                  children: [
+                
+                    Padding(padding: EdgeInsets.only(left: 16,right: 16),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                         Row(children:[ 
+                         CircleAvatar(radius: 10,backgroundColor: Colors.grey,),
+                         SizedBox(width: screenwidth*0.03,),
+                         Text('Available',style: TextStyle(fontWeight: FontWeight.bold),)
+                         ]),
+                      Row(children:[ 
+                        CircleAvatar(radius: 10,backgroundColor: Color.fromARGB(255, 229, 225, 10),),
+                        SizedBox(width: screenwidth*0.03,),
+                        Text('Requested',style: TextStyle(fontWeight: FontWeight.bold),)
+                        ]),]),
+                    ),
+                
+                    SizedBox(height: screenheight*0.03,),
+                
+                       Padding(padding: EdgeInsets.only(left: 16,right: 16),
+                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                         Row(children:[ 
+                         CircleAvatar(radius: 10,backgroundColor: Colors.blue,),
+                         SizedBox(width: screenwidth*0.03,),
+                         Text('Approved',style: TextStyle(fontWeight: FontWeight.bold),)
+                         ]),
+                                         Row(children:[ 
+                                           CircleAvatar(radius: 10,backgroundColor: Colors.green,),
+                                           SizedBox(width: screenwidth*0.03,),
+                                           Text('Completed',style: TextStyle(fontWeight: FontWeight.bold),)
+                                           ]),]),
+                       ),
+                       SizedBox(height: screenheight*0.03,),
+                          
+                          
+                          Padding(padding: EdgeInsets.only(left: 45,right: 16),child: Align(alignment: Alignment.centerLeft,
+                            child: Row(
+                              children:[ 
+                              
+                              CircleAvatar(radius: 10,backgroundColor: Colors.red,),
+                              SizedBox(width: screenwidth*0.03,),
+                              Text('Rejected',style: TextStyle(fontWeight: FontWeight.bold),)
+                              ])),)
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: screenheight*0.04,),
+
           _buildTimeslotSection("Morning"),
           _buildTimeslotSection("Noon"),
           _buildTimeslotSection("Evening"),
@@ -327,40 +431,226 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
+  // Widget _buildTimeslotSection(String timeslot) {
+  //    var screenheight = MediaQuery.of(context).size.height;
+  //   var screenwidth = MediaQuery.of(context).size.width;
+  //   return Column(
+  //     children:[
+
+        
+  //        Column(
+  //          crossAxisAlignment: CrossAxisAlignment.start,
+  //          children: [
+             
+  //           //  Text(
+  //           //    '$timeslot: 20 seats',
+  //           //    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //           //  ),
+           
+  //            Padding(padding: EdgeInsets.only(left: 16,right: 16),
+  //              child: Container(
+  //               height: screenheight*0.07,
+  //               width: double.infinity,
+  //               // decoration: BoxDecoration(
+  //               //   color: Colors.white
+  //               // ),
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 children: [
+  //                   Container(
+  //                     height: screenheight*0.06,
+  //                     width: screenwidth*0.5,
+  //                     decoration: BoxDecoration( borderRadius: BorderRadius.circular(18),
+  //                       color: Color(0xFF681E1E),),
+  //                       child: Align(alignment: Alignment.centerLeft,
+  //                         child: Text('    $timeslot',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                      
+  //                     //width: double.infinity,
+                     
+  //                   ),
+  //                   //  Container(
+  //                   //   height: screenheight*0.05,
+  //                   //   width: screenwidth*0.4,
+                      
+  //                   //   //width: double.infinity,
+  //                   //   color: Colors.white,
+  //                   //   child: Text('Timings : '),
+  //                   // )
+  //                   SizedBox(width: screenwidth*0.05,),
+  //                   GestureDetector( onTap: () => _addNewSeats(timeslot),
+  //                     child: CircleAvatar(
+  //                       radius: 25,
+  //                       backgroundColor: const Color.fromARGB(255, 220, 154, 55),
+  //                       child: Icon(Icons.person_add_alt_1_rounded,color: Color(0xFF681E1E),),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //              ),
+  //            ),
+  //            SizedBox(height: screenheight*0.03,),
+  //            Padding(padding: EdgeInsets.only(left: 16,right: 16),
+             
+  //              child: StreamBuilder<DocumentSnapshot>(
+  //                stream: _firestore
+  //                    .collection(currentDate)
+  //                    .doc(timeslot)
+  //                    .snapshots(),
+  //                builder: (context, snapshot) {
+  //                  if (!snapshot.hasData) {
+  //                    return Center(child: CircularProgressIndicator());
+  //                  }
+                 
+  //                  if (!snapshot.data!.exists) {
+  //                    _createDefaultDocument(timeslot);
+  //                    return Center(child: CircularProgressIndicator());
+  //                  }
+                 
+  //                  var seatData = snapshot.data!['seats'] ?? [];
+  //                  return Padding(padding: EdgeInsets.all(16),
+  //                    child: Column(
+  //                      children: [
+  //                        SingleChildScrollView(
+  //                         scrollDirection: Axis.vertical,
+  //                          child: GridView.builder(
+  //                            shrinkWrap: true,
+  //                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //                              crossAxisCount: 5,
+  //                              mainAxisSpacing: 16.0,
+  //                              crossAxisSpacing: 16.0,
+  //                            ),
+  //                            itemCount: seatData.length,
+  //                            itemBuilder: (context, index) {
+  //                              bool isSeatApproved =
+  //                                  seatData[index]["status"] == "Approved";
+  //                              Color seatColor = _getSeatColor(seatData[index]["status"]);
+                                        
+  //                              return GestureDetector(
+  //                                onDoubleTap: isSeatApproved
+  //                                    ? () => _onDoubleTap(index, seatData, timeslot)
+  //                                    : null, // Only double-tap if the seat is approved
+  //                                onTap: isSeatApproved
+  //                                    ? null // Prevent tap if the seat is approved
+  //                                    : () => _showApprovalDialog(index, seatData, timeslot),
+  //                                child: Container(
+  //                                  alignment: Alignment.center,
+  //                                  decoration: BoxDecoration(
+  //                                    color: seatColor,
+  //                                    borderRadius: BorderRadius.circular(20),
+  //                                    border: isSeatApproved
+  //                                        ? Border.all(color: Colors.blue, width: 2)
+  //                                        : null, // Grey border for unclickable seats
+  //                                  ),
+  //                                  child: Text(
+  //                                    '${index + 1}',
+  //                                    style: TextStyle(
+  //                                      color: isSeatApproved
+  //                                          ? Colors.white
+  //                                          : Colors.white, // Grey text if the seat is unclickable
+  //                                      fontSize: 16,
+  //                                    ),
+  //                                  ),
+  //                                ),
+  //                              );
+  //                            },
+  //                          ),
+  //                        ),
+  //                       //  ElevatedButton.icon(
+  //                       //    onPressed: () => _addNewSeats(timeslot),
+  //                       //    icon: Icon(Icons.add),
+  //                       //    label: Text("Add 5 seats"),
+  //                       //  ),
+  //                      ],
+  //                    ),
+  //                  );
+  //                },
+  //              ),
+  //            ),
+  //          ],
+  //        ),
+  //   ]);
+  // }
   Widget _buildTimeslotSection(String timeslot) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$timeslot: 20 seats',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  var screenheight = MediaQuery.of(context).size.height;
+  var screenwidth = MediaQuery.of(context).size.width;
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Container(
+          height: screenheight * 0.07,
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: screenheight * 0.06,
+                width: screenwidth * 0.5,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: const Color(0xFF681E1E),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    '    $timeslot',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: screenwidth * 0.05),
+              GestureDetector(
+                onTap: () => _addNewSeats(timeslot),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: const Color.fromARGB(255, 220, 154, 55),
+                  child: Icon(
+                    Icons.person_add_alt_1_rounded,
+                    color: Color(0xFF681E1E),
+                  ),
+                ),
+              )
+            ],
           ),
-          StreamBuilder<DocumentSnapshot>(
-            stream: _firestore
-                .collection(currentDate)
-                .doc(timeslot)
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              }
+        ),
+      ),
+      SizedBox(height: screenheight * 0.03),
+      Padding(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: StreamBuilder<DocumentSnapshot>(
+          stream: _firestore.collection(currentDate).doc(timeslot).snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-              if (!snapshot.data!.exists) {
-                _createDefaultDocument(timeslot);
-                return Center(child: CircularProgressIndicator());
-              }
+            if (!snapshot.data!.exists) {
+              _createDefaultDocument(timeslot);
+              return Center(child: CircularProgressIndicator());
+            }
 
-              var seatData = snapshot.data!['seats'] ?? [];
-              return Column(
-                children: [
-                  GridView.builder(
+            var seatData = snapshot.data!['seats'] ?? [];
+            return Padding(
+              padding: EdgeInsets.all(16),
+              child: Container(
+                height: screenheight * 0.33, // Fixed height for the scrollable container
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  // border: Border.all(color: Colors.grey, width: 1),
+                ),
+                child: SingleChildScrollView(
+                  child: GridView.builder(
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(), // Disable GridView's scrolling
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 5,
-                      mainAxisSpacing: 8.0,
-                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 16.0,
+                      crossAxisSpacing: 16.0,
                     ),
                     itemCount: seatData.length,
                     itemBuilder: (context, index) {
@@ -381,15 +671,13 @@ class _AdminPageState extends State<AdminPage> {
                             color: seatColor,
                             borderRadius: BorderRadius.circular(20),
                             border: isSeatApproved
-                                ? Border.all(color: Colors.grey, width: 2)
+                                ? Border.all(color: Colors.blue, width: 2)
                                 : null, // Grey border for unclickable seats
                           ),
                           child: Text(
                             '${index + 1}',
                             style: TextStyle(
-                              color: isSeatApproved
-                                  ? Colors.grey
-                                  : Colors.white, // Grey text if the seat is unclickable
+                              color: Colors.white,
                               fontSize: 16,
                             ),
                           ),
@@ -397,24 +685,21 @@ class _AdminPageState extends State<AdminPage> {
                       );
                     },
                   ),
-                  ElevatedButton.icon(
-                    onPressed: () => _addNewSeats(timeslot),
-                    icon: Icon(Icons.add),
-                    label: Text("Add 5 seats"),
-                  ),
-                ],
-              );
-            },
-          ),
-        ],
+                ),
+              ),
+            );
+          },
+        ),
       ),
-    );
-  }
+    ],
+  );
+}
+
 
   // Create a default document in Firestore for each timeslot if it doesn't exist
   void _createDefaultDocument(String timeslot) async {
     List<Map<String, dynamic>> seats = List.generate(
-      20, // Assume there are initially 20 seats
+      14, // Assume there are initially 20 seats
       (index) => {
         'status': 'Pending',
         'name': '',
@@ -540,18 +825,20 @@ class _AdminPageState extends State<AdminPage> {
   Color _getSeatColor(String status) {
     switch (status) {
       case 'Requested':
-        return Colors.orange;
+        return const Color.fromARGB(255, 229, 225, 10);
       case 'Approved':
-        return Colors.green;
+        return Colors.blue;
       case 'Removed':
         return Colors.red;
       case 'Completed': // Add case for pink color
-        return Colors.pink;
+        return Colors.green;
       default:
-        return Colors.blue; // Pending status
+        return Colors.grey; // Pending status
     }
   }
 }
+
+////////////////////////////////////////////////////////////////////////inp///////////////////////////////
 
 
 // // Customer Page
@@ -948,7 +1235,7 @@ class _CustomerPageState extends State<CustomerPage> {
       case 'Approved':
         return Colors.green;
       case 'Removed':
-        return Colors.red;
+        return Colors.grey;
       case 'Completed':
         return Colors.pink; // Completed status color
       default:

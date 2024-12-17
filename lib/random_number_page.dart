@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hair/main.dart';
 
 class RandomNumberPage extends StatefulWidget{
 
@@ -26,7 +27,14 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
     var screenwidth = MediaQuery.of(context).size.height;
     var screenheight = MediaQuery.of(context).size.width;
     
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+       return false;
+         
+      },
+      child:
+     Scaffold(
        resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
 
@@ -105,6 +113,6 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
 
 
       )],),)
-    );
+    ));
   }
 }

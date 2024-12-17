@@ -1,185 +1,197 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hair/log_ui.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 
-
-import 'package:lottie/lottie.dart';
-class forgetpassword extends StatefulWidget{
+class ForgetPassword extends StatefulWidget {
   @override
-  State<forgetpassword> createState() => _forgetpasswordState();
+  State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
-class _forgetpasswordState extends State<forgetpassword> {
+class _ForgetPasswordState extends State<ForgetPassword> {
+  String forgetEmail = ' ';
+  TextEditingController forgetMailController = TextEditingController();
+  final forgetFormKey = GlobalKey<FormState>();
 
-  String forget_email = ' ';
-
-  TextEditingController forget_mailcontroller = TextEditingController();
-
-  final forget_formkey = GlobalKey<FormState>();
-
-  forgetpassword() async{
-
-    try{
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: forget_email);
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red,content: Text('Check your mailbox ',style:TextStyle(fontSize: 15))));
-
-     Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => LogInUpPage()),(route) => false,);
-       return false;
-
-      //  Navigator.push(context, MaterialPageRoute(builder: (context) => ()));
-
-      }on FirebaseAuthException catch (e)
-      {
-        if(e.code == 'user-not-found'){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red,
-          content: Text('No User Found For This Email',style:TextStyle(fontSize: 15))));
-        }}
+  Future<void> sendPasswordResetEmail() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: forgetEmail);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Text(
+            'Check your mailbox for the password reset link.',
+            style: TextStyle(fontSize: 15),
+          ),
+        ),
+      );
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) =>LogInUpPage()), // Your home widget
+        (route) => false,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'No user found with this email address.',
+              style: TextStyle(fontSize: 15),
+            ),
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    
-    return  WillPopScope(
-      onWillPop: () async{
-         Navigator.pop(context);
-         return true;
-        
+
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return true;
       },
-      child:
-    Scaffold(
-      backgroundColor: Colors.white,
-
-      body:
-      /*Metaballs(
-  color: Color.fromARGB(255, 235, 86, 98),
-  effect: MetaballsEffect.follow(
-    growthFactor: 1,
-    smoothing: 1,
-    radius: 0.5,
-  ),
-  gradient: LinearGradient(
-    colors: [
-      Color.fromARGB(255, 184, 8, 26),
-      Color.fromARGB(255, 222, 16, 33),
-    ],
-    begin: Alignment.bottomRight,
-    end: Alignment.topLeft
-  ),
-  metaballs: 40,
-  animationDuration: const Duration(milliseconds: 200),
-  speedMultiplier: 1,
-  bounceStiffness: 3,
-  minBallRadius: 15,
-  maxBallRadius: 40,
-  glowRadius: 0.7,
-  glowIntensity: 0.6,
-  child: */SingleChildScrollView(scrollDirection: Axis.vertical,
-    child:
-      Container(
-       
-        child:Column(children: [
-
-          SizedBox(height:screenHeight*0.08),
-
-         Shimmer.fromColors(
-          period: Duration(milliseconds: 4000),
-      baseColor: Colors.black, // Base color for shimmer
-      highlightColor: Colors.white, // Highlight color for shimmer effect
-      child: Text('PASSWORD RECOVERY',style:TextStyle(fontWeight: FontWeight.bold,fontSize: 20)),),
-
-       Center(child: Container(
-            height: 250,
-            width: 100,child:Transform.scale(
-            scale: 2.0, 
-   
-           // child:Lottie.asset('assets/ANIMATION/CFdtDNhIMp.json')
-            )
-            ,),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: screenHeight * 0.05),
+                Container(
+                  height: screenHeight*0.07,
+                 decoration: BoxDecoration(
+                   color: const Color(0xFFFFD3C6),borderRadius: BorderRadius.circular(20)
+                 ),
+                  child: Center(
+                    child: Text(
+                      'PASSWORD RECOVERY',
+                      style: TextStyle(
+                        color: Color(0xFF681E1E),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.05),
+                Lottie.asset(
+                  'assets/Animation - 1721316481945 (1).json',
+                  height: 200,
+                ),
+                SizedBox(height: screenHeight * 0.08),
+                Container(
+                  height: screenHeight*0.3,
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFD3C6),
+                    borderRadius: BorderRadius.circular(15),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.grey.withOpacity(0.2),
+                    //     blurRadius: 10,
+                    //     spreadRadius: 5,
+                    //   ),
+                    // ],
+                  ),
+                  child: Form(
+                    key: forgetFormKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Enter Your Email',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Color(0xFF681E1E),
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.02),
+                        TextFormField(
+                          controller: forgetMailController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "This field is required";
+                            } else if (!RegExp(
+                                    r'^[^@]+@[^@]+\.[^@]+$')
+                                .hasMatch(value)) {
+                              return "Please enter a valid email";
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.email_outlined),
+                            hintText: 'Enter your email here',
+                            hintStyle: TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey[500],
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.04),
+                        Center(
+                          child: SizedBox(
+                            width: screenWidth * 0.6,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (forgetFormKey.currentState!.validate()) {
+                                  setState(() {
+                                    forgetEmail =
+                                        forgetMailController.text.trim();
+                                  });
+                                  sendPasswordResetEmail();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF681E1E),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                'Send Reset Link',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-
-          
-          Center(child:Container(
-            margin: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              border: Border.all(width: 2,color: Colors.green),
-              borderRadius: BorderRadius.circular(20),color:Colors.green.withOpacity(0.1)),
-            width:350,height:350,
-            child:Form(key:forget_formkey,
-              child:Column(children: [
-
-              SizedBox(height:screenHeight*0.013),
-
-              Text('Enter Your Email',style:TextStyle(shadows: [
-                Shadow(color: Colors.black,blurRadius: 7)
-              ],
-                fontWeight: FontWeight.bold,color: Colors.white,fontSize: 20)),
-
-              SizedBox(height:screenHeight*0.043),
-
-
-            Padding(padding:EdgeInsets.all(15),child:TextFormField(
-              
-
-            controller: forget_mailcontroller,
-             validator: (value){
-                    if(value == null || value.isEmpty)
-                    {
-                      return "Fill this required field";
-                    }
-                     else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(value)) {
-      return "Enter valid email (e.g., mail@domain.com)";
-    } 
-                    return null;
-                  },
-            keyboardType: TextInputType.name,
-             style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.red),
-            
-            decoration: InputDecoration(
-             
-              prefixIcon: Icon(Icons.mark_email_read_outlined,color: Colors.green,),errorStyle: TextStyle(color: Colors.white),
-             prefixIconColor: Color.fromARGB(255, 29, 2, 110),
-             
-             
-
-            focusedBorder: OutlineInputBorder(borderSide: BorderSide(color:Color.fromARGB(255, 29, 2, 110))),
-              hintText: 'Enter your mail ',hintStyle: TextStyle(shadows: [
-                Shadow(color: Colors.black,blurRadius: 7)
-              ],
-                fontSize: 13,color:Colors.white),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),),
-              
-            
-          )),
-
-
-
-
-
-          SizedBox(height: screenHeight*0.043),
-
-          SizedBox(width:200,height: 60,child: ElevatedButton(onPressed: (){
-
-            if(forget_formkey.currentState!.validate())
-            {
-              setState(() {
-                forget_email = forget_mailcontroller.text.trim();
-              });
-              forgetpassword();
-            }
-            
-          },style: ElevatedButton.styleFrom(backgroundColor: Colors.green.withOpacity(0.9)) ,child: Text('Send mail',style:TextStyle(fontWeight: FontWeight.bold,color: Colors.white))),)
-
-        ],)
-      )
-
-    ))])))));
+        ),
+      ),
+    );
   }
 }

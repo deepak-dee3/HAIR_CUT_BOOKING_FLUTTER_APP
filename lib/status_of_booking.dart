@@ -312,7 +312,14 @@ class _StatusOfBookingState extends State<StatusOfBooking> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+       return false;
+         
+      },
+      child:
+    Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Center(
@@ -382,6 +389,6 @@ class _StatusOfBookingState extends State<StatusOfBooking> {
           },
         ),
       ),
-    );
+     ) );
   }
 }

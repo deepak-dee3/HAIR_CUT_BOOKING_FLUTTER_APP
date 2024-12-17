@@ -159,7 +159,7 @@ class _LogInPageState extends State<LogInPage> {
             SizedBox(height: 15,),
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => forgetpassword()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()));
               },
               
               child:Text('Forget Password?'),

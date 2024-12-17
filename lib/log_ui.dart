@@ -71,7 +71,13 @@ class _SignInUpPageState extends State<SignInUpPage> {
     var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
+    return  WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+        return false;
+      },
+      child:
+    Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Stack(
@@ -248,16 +254,21 @@ class _SignInUpPageState extends State<SignInUpPage> {
 
             GestureDetector(
               onTap: (){
+                 Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) =>LogInUpPage()), // Your home widget
+        (route) => false,
+      );
                 // Navigator.push(context, MaterialPageRoute(builder: (context) => LogInUpPage()));
-                Navigator.push(
-      context,
-      PageTransition(
-        type: PageTransitionType.rightToLeft,
-        curve: Curves.linear,
-        child: LogInUpPage(),
-        inheritTheme: true,
-        ctx: context),
-);
+//                 Navigator.push(
+//       context,
+//       PageTransition(
+//         type: PageTransitionType.rightToLeft,
+//         curve: Curves.linear,
+//         child: LogInUpPage(),
+//         inheritTheme: true,
+//         ctx: context),
+// );
               },
               child: Padding(
                 padding: const EdgeInsets.only(top: 750),
@@ -282,7 +293,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
         
         
       ),
-    );
+    ));
   }
 }
 
@@ -311,7 +322,31 @@ class _LogInUpPageState extends State<LogInUpPage> {
     var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
+    return  WillPopScope(
+    onWillPop: () async {
+      return await showDialog(
+        
+        context: context,
+        builder: (context) => AlertDialog(
+          backgroundColor: Color(0xFF681E1E),
+          
+          title: Text('Confirm Exit !!',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+          content: Text('Are you sure you want to exit?',style: TextStyle(color: Colors.white),),
+          actions: <Widget>[
+            TextButton(
+              child: Text('No',style: TextStyle(color: const Color(0xFFFFD3C6),fontWeight: FontWeight.bold),),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text('Yes',style: TextStyle(color: const Color(0xFFFFD3C6),fontWeight: FontWeight.bold)),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        ),
+      );
+    },
+    child:
+    Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Stack(
@@ -470,7 +505,7 @@ class _LogInUpPageState extends State<LogInUpPage> {
       PageTransition(
         type: PageTransitionType.leftToRight,
         curve: Curves.linear,
-        child: forgetpassword(),
+        child: ForgetPassword(),
         inheritTheme: true,
         ctx: context),
 );
@@ -528,6 +563,6 @@ class _LogInUpPageState extends State<LogInUpPage> {
         
         
       ),
-    );
+    ));
   }
 }

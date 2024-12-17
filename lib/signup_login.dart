@@ -387,9 +387,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hair/log_ui.dart';
+import 'package:hair/login.dart';
 import 'package:hair/main.dart';
 import 'dart:async';
-
+import 'package:hair/signup_login.dart';
 import 'package:hair/status_of_booking.dart';
 
 class UserDashboard extends StatelessWidget {
@@ -452,7 +454,15 @@ class UserDashboard extends StatelessWidget {
     _startAutoSwipe(context);
 
 
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        //Navigator.pop(context);
+       // return true;
+         Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => LogInUpPage()),(route) => false,);
+       return false;
+      },
+      child:
+    Scaffold(
       backgroundColor: Colors.white,
       body:Container(
         child: Column(
@@ -716,7 +726,7 @@ class UserDashboard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 

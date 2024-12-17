@@ -304,7 +304,16 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
      var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
-    return Scaffold(
+    return
+    WillPopScope(
+      onWillPop: () async {
+        //Navigator.pop(context);
+       // return true;
+         Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => LogInUpPage()),(route) => false,);
+       return false;
+      },
+      child:
+     Scaffold(
       backgroundColor: Colors.white,
       // appBar: AppBar(
       //   leading: GestureDetector(onTap:(){
@@ -429,7 +438,7 @@ class _AdminPageState extends State<AdminPage> {
           _buildTimeslotSection("Night","(7:00 pm - 09:00 pm)"),
         ],
       ),
-    );
+    ));
   }
 
   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
@@ -1054,7 +1063,14 @@ class _CustomerPageState extends State<CustomerPage> {
      var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
    
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context);
+       return false;
+        
+      },
+      child:
+    Scaffold(
       backgroundColor: Colors.white,
       // appBar: AppBar(
       //   title: Text('Customer Seat Booking'),
@@ -1155,7 +1171,7 @@ class _CustomerPageState extends State<CustomerPage> {
           _buildTimeslotSection("Night","7:00 pm - 09:00 pm"),
         ],
       ),
-    );
+    ));
   }
 
   // Function to build the UI for each timeslot section (Morning, Noon, etc.)

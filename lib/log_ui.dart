@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hair/forget_password.dart';
+import 'package:hair/main.dart';
 import 'package:hair/signup_login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -406,17 +408,35 @@ class _LogInUpPageState extends State<LogInUpPage> {
                     // Log In Button
                     GestureDetector(
                       onTap: () async {
+
+                        if (_emailController.text.trim() == 'admin@gmail.com' &&
+                            _passwordController.text.trim() == 'Admin@11') {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AdminPage(),
+                            ),
+                          );
+                        }
+                        else{
                 User? user = await _authService.signInWithEmailPassword(
-                  _emailController.text,
-                  _passwordController.text,
+                  _emailController.text.trim(),
+                  _passwordController.text.trim(),
                 );
                 if (user != null) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => UserDashboard(userId: user.uid)),
                   );
-                }
-              },
+                } else {
+                            // Show an error message if authentication fails
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Invalid email or password'),
+                              ),
+                            );
+                          }
+              }},
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 20),
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -441,14 +461,35 @@ class _LogInUpPageState extends State<LogInUpPage> {
               ),
               
             ),
-           // Text('dat',style: TextStyle(color: Colors.red),)
-
-            // //Additional Spacing for Scrollable Effect
-            // Positioned(
-            //   //left: 180,
-            //   top: 750, // Add enough space after the Sign In container
-            //   child: Text('Already hav an account ?')
-            // ),
+             GestureDetector(
+              
+               onTap: (){
+               // Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
+               Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.leftToRight,
+        curve: Curves.linear,
+        child: forgetpassword(),
+        inheritTheme: true,
+        ctx: context),
+);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 630),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Forgot Password  ',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
             GestureDetector(
               

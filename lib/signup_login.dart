@@ -147,6 +147,242 @@
 
 //////the above code is important and this is old sign and sigup page in one page
 ///
+//  import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:flutter/material.dart';
+// import 'package:hair/main.dart';
+// import 'dart:async';
+
+// import 'package:intl/intl.dart';
+
+// class UserDashboard extends StatelessWidget {
+//   final String userId;
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+//   UserDashboard({required this.userId});
+
+//   // Get the user's email and age from Firestore
+//   Future<Map<String, String>> getUserData() async {
+//     try {
+//       DocumentSnapshot snapshot = await _firestore.collection('users').doc(userId).get();
+//       if (snapshot.exists) {
+//         return {
+//           'email': snapshot['email'] ?? 'Email not found',
+//           'age': snapshot['age'] ?? 'Age not found',
+//         };
+//       } else {
+//         return {'email': 'User not found', 'age': 'N/A'};
+//       }
+//     } catch (e) {
+//       print('Error retrieving user data: $e');
+//       return {'email': 'Error retrieving email', 'age': 'Error retrieving age'};
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//      var screenheight = MediaQuery.of(context).size.height;
+//     var screenwidth = MediaQuery.of(context).size.width;
+
+//     return Scaffold(
+//       //appBar: AppBar(title: Text('User Dashboard')),
+//       body: SingleChildScrollView(
+
+
+//         child: Stack(
+//           clipBehavior: Clip.none,
+//           children:[ 
+//              Container(
+//               height: screenheight*0.4,
+//               decoration: const BoxDecoration(
+//                 color: Color(0xFF681E1E), // Dark Red
+//                 borderRadius: BorderRadius.only(
+//                    bottomLeft: Radius.circular(80),
+//                   bottomRight: Radius.circular(80),
+//                 ),
+//               ),
+//             ),
+
+//             Positioned(
+//               top: 280,
+//               left: 30,
+//               right: 30,
+//               child: Container(
+//                 height: screenheight*0.25,
+
+//                 decoration: BoxDecoration(
+//                   // boxShadow: [
+//                   //   BoxShadow(color: Colors.black,blurRadius: 1)
+//                   // ],
+//                    color: const Color(0xFFFFD3C6),//Color.fromARGB(255, 220, 154, 55),
+//                    borderRadius: BorderRadius.circular(20)
+
+//                 ),
+               
+//               child: Text('hello')
+//                         ),
+//             ),
+//             Positioned(
+//                top: 515, // Adjust this value based on your container height
+//         left: 30,
+//         right: 30,
+//               child: Container(
+                
+                
+//               decoration: BoxDecoration(color: const Color(0xFFFFD3C6),borderRadius: BorderRadius.circular(20)),
+//               height: screenheight*0.13,
+//               width: screenwidth*0.05,
+//               child: Center(
+//                 child:
+//                 FutureBuilder<Map<String, String>>(
+//                 future: getUserData(),
+//                 builder: (context, snapshot) {
+//                   if (snapshot.connectionState == ConnectionState.waiting) {
+//                     return Center(child: CircularProgressIndicator());
+//                   } else if (snapshot.hasError) {
+//                     return Center(child: Text('Error: ${snapshot.error}'));
+//                   } else if (snapshot.hasData) {
+//                     return Column(
+//                       children: [
+//                         Container(child: Text('Account Details',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),fontWeight: FontWeight.bold,fontSize: 16),),),
+//                         SizedBox(height: screenheight*0.012,),
+//                         Padding(padding: EdgeInsets.only(left:15),
+//                           child: Container(
+//                             child:Row(
+//                               children: [
+//                                 Text('Your Name :  ',style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFF681E1E)),),
+//                                 Text('${snapshot.data!['age']}',maxLines: 1,overflow:TextOverflow.ellipsis,)
+//                               ],
+//                             )
+//                           ),
+//                         ),
+//                         SizedBox(height: screenheight*0.01,),
+//                         Padding(padding: EdgeInsets.only(left:15),
+//                           child: Container(
+//                             child:Row(
+//                               children: [
+//                                 Text('Your Mail    :  ',style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFF681E1E)),),
+//                                 Text('${snapshot.data!['email']}',maxLines: 1,overflow:TextOverflow.ellipsis,)
+//                               ],
+//                             )
+//                           ),
+//                         )
+                       
+//                       ],
+//                     );
+//                   } else {
+//                     return Center(child: Text('No user data found'));
+//                   }
+//                 },
+//               ),
+//                 )
+//             )),
+        
+//              Positioned(
+//               top: 650, // Adjust this value based on your container height
+//         left: 30,
+//         right: 30,
+//                child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+               
+//                  children:[ 
+//                   GestureDetector(
+//                      onTap: () {
+//                                   Navigator.push(
+//                                     context,
+//                                     MaterialPageRoute(
+//                                       builder: (context) => CustomerPage(userId: userId),
+//                                     ),
+//                                   );
+//                                 },
+                               
+//                     child: Container(
+//                       height: screenheight*0.18,
+//                       width: screenwidth*0.4,
+//                       decoration: BoxDecoration(color: Color(0xFF681E1E),
+//                       borderRadius: BorderRadius.circular(20)
+                      
+//                       ),
+//                        child: Center(child: Text('Start/nBooking',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),fontWeight: FontWeight.bold,fontSize: 16),)),
+                      
+//                     ),
+//                   ),
+                  
+//                    InkWell(
+                    
+//                     onTap: (){
+//                       print('hello');
+//                        Navigator.push(
+//                                     context,
+//                                     MaterialPageRoute(
+//                                       builder: (context) => CustomerPage(userId: userId),
+//                                     ),
+//                                   );
+//                     },
+//                      child: Container(
+//                        height: screenheight*0.18,
+//                        width: screenwidth*0.4,
+//                        decoration: BoxDecoration(color: Color(0xFF681E1E),
+//                        borderRadius: BorderRadius.circular(20)
+                       
+//                        ),
+//                         child: Center(child: Text('Watch / Status',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),fontWeight: FontWeight.bold,fontSize: 16),)),
+                       
+//                      ),
+//                    ),
+//           ]),
+//              ),
+
+//              Positioned(top:65,left: 30,
+//               child: Container(
+//               child: Text("Let's Start",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),),
+//              )),
+//              Positioned(top:115,left: 30,
+//               child: Container(
+//               child: Text("The Beggining !!!",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 220, 154, 55),),),
+//              ))
+//         ]),
+//       ),
+//     );
+//   }
+// }
+
+
+
+
+// class CurrentTimeWidget extends StatefulWidget {
+//   @override
+//   _CurrentTimeWidgetState createState() => _CurrentTimeWidgetState();
+// }
+
+// class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
+//   String _currentTime = '';
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _updateTime();
+//   }
+
+//    void _updateTime() {
+//     Timer.periodic(Duration(minutes: 1), (Timer timer) {
+//       setState(() {
+//         _currentTime = DateFormat('yyyy-MM-dd hh:mm a').format(DateTime.now()); // Update time and date
+//       });
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       _currentTime.isEmpty ? "Loading..." : _currentTime,
+//       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+//     );
+//   }
+// }
+
  import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -154,16 +390,44 @@ import 'package:flutter/material.dart';
 import 'package:hair/main.dart';
 import 'dart:async';
 
-import 'package:intl/intl.dart';
+import 'package:hair/status_of_booking.dart';
 
 class UserDashboard extends StatelessWidget {
   final String userId;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   UserDashboard({required this.userId});
 
-  // Get the user's email and age from Firestore
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+   int _currentIndex = 0;
+
+  final List<String> _images = [
+    'assets/hair1.jpeg', // Replace with your image paths
+    'assets/hair2.jpeg', // Replace with your image paths
+    'assets/hair3.jpeg', // Replace with your image paths
+    'assets/hair4.jpeg', // Replace with your image paths
+  ];
+  final PageController _pageController = PageController();
+  final Duration _autoSwipeInterval = Duration(seconds: 5);
+
+  
+
+  // Automatically swipe images after 5 seconds
+  void _startAutoSwipe(BuildContext context) {
+    Timer.periodic(_autoSwipeInterval, (timer) {
+      if (_pageController.hasClients) {
+        int nextPage = (_pageController.page?.toInt() ?? 0) + 1;
+        if (nextPage >= _images.length) nextPage = 0;
+        _pageController.animateToPage(nextPage,
+            duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+      }
+    });
+  }
+
+
+  // @override
   Future<Map<String, String>> getUserData() async {
     try {
       DocumentSnapshot snapshot = await _firestore.collection('users').doc(userId).get();
@@ -183,26 +447,215 @@ class UserDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth = MediaQuery.of(context).size.width;
+    _startAutoSwipe(context);
+
+
     return Scaffold(
-      appBar: AppBar(title: Text('User Dashboard')),
-      body: FutureBuilder<Map<String, String>>(
-        future: getUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            return Column(
-              children: [
-                Center(
-                  child: Text(
-                    'Welcome, ${snapshot.data!['email']}\nAge: ${snapshot.data!['age']}',
-                    textAlign: TextAlign.center,
+      backgroundColor: Colors.white,
+      body:Container(
+        child: Column(
+          children: [
+           
+            Container(
+  height: screenheight * 0.33, // Ensure the container has a fixed height
+  width: double.infinity, // Make the container take the full width
+  decoration: const BoxDecoration(
+    color: Color(0xFF681E1E), // Dark Red
+    borderRadius: BorderRadius.only(
+      bottomLeft: Radius.circular(40),
+      bottomRight: Radius.circular(40),
+    ),
+  ),
+  child: Padding(padding: EdgeInsets.only(left: 15,top:80),
+    child: Column(
+     // mainAxisAlignment: MainAxisAlignment.start,
+      children:[
+        
+         Align(
+          alignment: Alignment.topLeft,
+           child: Text(
+                   "Let's Start ...", // Replace this with your desired text
+                   style: TextStyle(
+            color: Colors.white, // Set text color to white to stand out against the red background
+            fontSize: 32, // Adjust the font size as needed
+            fontWeight: FontWeight.bold, // Bold font for emphasis
+                   ),
+                 ),
+         ),
+       Align(
+        alignment: Alignment.centerLeft,
+         child: Text(
+          'The Beggining !!!', // Replace this with your desired text
+          style: TextStyle(
+           color: Color.fromARGB(255, 220, 154, 55), // Set text color to white to stand out against the red background
+            fontSize: 20, // Adjust the font size as needed
+            fontWeight: FontWeight.bold, // Bold font for emphasis
+            
+          ),
+               ),
+       ),
+       SizedBox(height: screenheight*0.01,),
+        Align(
+        alignment: Alignment.centerLeft,
+         child: Row(children:[ Icon(Icons.cut,size: 40,color: Color.fromARGB(255, 220, 154, 55),)
+         ,Text('-------------------',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),
+          fontSize: 20, // Adjust the font size as neede
+            fontWeight: FontWeight.bold, ),)
+         ])
+       ),
+          ]),
+  ),
+)
+,
+
+           
+             Container(
+              height: screenheight * 0.26,
+              margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(60),
+              ),
+              child: Column(
+                children: [
+                  // Image carousel with automatic swiping
+                  Container(
+                    height: screenheight * 0.25,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: _images.length,
+                        onPageChanged: (index) {
+                          _currentIndex = index;
+                        },
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 0.01),
+                            child: Image.asset(
+                              _images[index],
+                              fit: BoxFit.fill,
+                              width: screenwidth * 0.9,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
+                  // Dots indicator
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: List.generate(
+                  //     _images.length,
+                  //     (index) => AnimatedContainer(
+                  //       duration: Duration(milliseconds: 300),
+                  //       margin: EdgeInsets.symmetric(horizontal: 5),
+                  //       height: 8,
+                  //       width: _currentIndex == index ? 20 : 8,
+                  //       decoration: BoxDecoration(
+                  //         color: _currentIndex == index
+                  //             ? Color(0xFF681E1E)
+                  //             : Colors.grey,
+                  //         borderRadius: BorderRadius.circular(4),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: screenheight*0.01,),
+
+            // Account details
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 30),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFD3C6),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              height: screenheight * 0.13,
+              child: FutureBuilder<Map<String, String>>(
+                future: getUserData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 15, top: 8),
+                          child: Text(
+                            'Account Details',
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 220, 154, 55),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenheight * 0.01),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Your Name :  ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF681E1E),
+                                ),
+                              ),
+                              Text(
+                                '${snapshot.data!['age']}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontWeight: FontWeight.bold,),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: screenheight * 0.01),
+                        Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Your Mail    :  ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF681E1E),
+                                ),
+                              ),
+                              Text(
+                                '${snapshot.data!['email']}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                 style: TextStyle(fontWeight: FontWeight.bold,),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Center(child: Text('No user data found'));
+                  }
+                },
+              ),
+            ),
+
+            // Navigation buttons
+            SizedBox(height: screenheight * 0.035), // Space between sections
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -210,54 +663,60 @@ class UserDashboard extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text('Go to admin'),
+                  child: Container(
+                    height: screenheight * 0.18,
+                    width: screenwidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF681E1E),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Start  Booking',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 220, 154, 55),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-                Container(
-                  height: 50,
-                  width: 150,
-                  color: Colors.blue,
-                 // child: CurrentTimeWidget(),
-                )
+                InkWell(
+                  onTap: () {
+                    print('hello');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => StatusOfBooking(userId: userId),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: screenheight * 0.18,
+                    width: screenwidth * 0.4,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF681E1E),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Watch  Status',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 220, 154, 55),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            );
-          } else {
-            return Center(child: Text('No user data found'));
-          }
-        },
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-
-// class CurrentTimeWidget extends StatefulWidget {
-//   @override
-//   _CurrentTimeWidgetState createState() => _CurrentTimeWidgetState();
-// }
-
-// class _CurrentTimeWidgetState extends State<CurrentTimeWidget> {
-//   String _currentTime = '';
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _updateTime();
-//   }
-
-//   void _updateTime() {
-//     Timer.periodic(Duration(seconds: 1), (Timer timer) {
-//       setState(() {
-//         _currentTime = DateFormat('hh:mm:ss a').format(DateTime.now()); // Update time
-//       });
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Text(
-//       _currentTime.isEmpty ? "Loading..." : _currentTime,
-//       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-//     );
-//   }
-// }
 

@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AdminPage(),
+      home: LogInUpPage(),
     );
   }
 }
@@ -306,42 +306,43 @@ class _AdminPageState extends State<AdminPage> {
     var screenwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        leading: GestureDetector(onTap:(){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()));
+      // appBar: AppBar(
+      //   leading: GestureDetector(onTap:(){
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()));
 
-        }
-          ,child: Icon(Icons.abc_outlined)),
-        actions: [
-          GestureDetector(
-            child: Icon(Icons.login),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => LogInUpPage()));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.sign_language),
-            onTap: () {
-             // Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.blender_outlined),
-            onTap: () {
-             // Navigator.push(context, MaterialPageRoute(builder: (context) => AuthService()));
-            },
-          ),
-          GestureDetector(
-            child: Icon(Icons.password),
-            onTap: () {
-             // Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Page()));
-            },
-          )
-        ],
-        title: Text('Admin Seat Management'),
-      ),
+      //   }
+      //     ,child: Icon(Icons.abc_outlined)),
+      //   actions: [
+      //     GestureDetector(
+      //       child: Icon(Icons.login),
+      //       onTap: () {
+      //         Navigator.push(context, MaterialPageRoute(builder: (context) => LogInUpPage()));
+      //       },
+      //     ),
+      //     GestureDetector(
+      //       child: Icon(Icons.sign_language),
+      //       onTap: () {
+      //        // Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
+      //       },
+      //     ),
+      //     GestureDetector(
+      //       child: Icon(Icons.blender_outlined),
+      //       onTap: () {
+      //        // Navigator.push(context, MaterialPageRoute(builder: (context) => AuthService()));
+      //       },
+      //     ),
+      //     GestureDetector(
+      //       child: Icon(Icons.password),
+      //       onTap: () {
+      //        // Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Page()));
+      //       },
+      //     )
+      //   ],
+      //   title: Text('Admin Seat Management'),
+      // ),
       body: ListView(
         children: [
+          SizedBox(height: screenheight*0.02,),
           Padding(padding: EdgeInsets.only(left: 16,right: 16),
             child: Container(
               height: screenheight*0.13,
@@ -422,10 +423,10 @@ class _AdminPageState extends State<AdminPage> {
           ),
           SizedBox(height: screenheight*0.04,),
 
-          _buildTimeslotSection("Morning"),
-          _buildTimeslotSection("Noon"),
-          _buildTimeslotSection("Evening"),
-          _buildTimeslotSection("Night"),
+          _buildTimeslotSection("Morning","(06:00 am - 09:59 am)"),
+          _buildTimeslotSection("Noon","(10:00 am - 03:59 pm)"),
+          _buildTimeslotSection("Evening","(04:00 pm - 06:59 pm)"),
+          _buildTimeslotSection("Night","(7:00 pm - 09:00 pm)"),
         ],
       ),
     );
@@ -571,7 +572,7 @@ class _AdminPageState extends State<AdminPage> {
   //        ),
   //   ]);
   // }
-  Widget _buildTimeslotSection(String timeslot) {
+  Widget _buildTimeslotSection(String timeslot,timings) {
   var screenheight = MediaQuery.of(context).size.height;
   var screenwidth = MediaQuery.of(context).size.width;
 
@@ -588,7 +589,7 @@ class _AdminPageState extends State<AdminPage> {
             children: [
               Container(
                 height: screenheight * 0.06,
-                width: screenwidth * 0.5,
+                width: screenwidth * 0.75,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18),
                   color: const Color(0xFF681E1E),
@@ -596,7 +597,7 @@ class _AdminPageState extends State<AdminPage> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '    $timeslot',
+                    '    $timeslot  $timings',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -604,7 +605,7 @@ class _AdminPageState extends State<AdminPage> {
                   ),
                 ),
               ),
-              SizedBox(width: screenwidth * 0.05),
+              SizedBox(width: screenwidth * 0.04),
               GestureDetector(
                 onTap: () => _addNewSeats(timeslot),
                 child: CircleAvatar(
@@ -694,6 +695,7 @@ class _AdminPageState extends State<AdminPage> {
           },
         ),
       ),
+      SizedBox(height: screenheight*0.025,),
     ],
   );
 }
@@ -702,7 +704,7 @@ class _AdminPageState extends State<AdminPage> {
   // Create a default document in Firestore for each timeslot if it doesn't exist
   void _createDefaultDocument(String timeslot) async {
     List<Map<String, dynamic>> seats = List.generate(
-      14, // Assume there are initially 20 seats
+      20, // Assume there are initially 20 seats
       (index) => {
         'status': 'Pending',
         'name': '',
@@ -1054,17 +1056,18 @@ class _CustomerPageState extends State<CustomerPage> {
    
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Customer Seat Booking'),
-        leading: GestureDetector(onTap:(){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => StatusOfBooking(userId: widget.userId)));
+      // appBar: AppBar(
+      //   title: Text('Customer Seat Booking'),
+      //   leading: GestureDetector(onTap:(){
+      //     Navigator.push(context, MaterialPageRoute(builder: (context) => StatusOfBooking(userId: widget.userId)));
            
 
-        },
-          child: Icon(Icons.book_rounded)),
-      ),
+      //   },
+      //     child: Icon(Icons.book_rounded)),
+      // ),
       body: ListView(
         children: [
+          SizedBox(height: screenheight*0.02,),
           Padding(padding: EdgeInsets.only(left: 16,right: 16),
             child: Container(
               height: screenheight*0.13,
@@ -1192,17 +1195,7 @@ class _CustomerPageState extends State<CustomerPage> {
                 ),
               ),
               SizedBox(width: screenwidth * 0.05),
-              // GestureDetector(
-              //  // onTap: () => _addNewSeats(timeslot),
-              //   child: CircleAvatar(
-              //     radius: 25,
-              //     backgroundColor: const Color.fromARGB(255, 220, 154, 55),
-              //     child: Icon(
-              //       Icons.person_add_alt_1_rounded,
-              //       color: Color(0xFF681E1E),
-              //     ),
-              //   ),
-              // )
+              
               Container(
                 height: screenheight * 0.06,
                 width: screenwidth * 0.568,
@@ -1359,16 +1352,17 @@ SizedBox(height: screenheight*0.02,)
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Book Seat ${index + 1}'),
+          backgroundColor: const Color.fromARGB(255, 220, 154, 55),
+          title: Text('Book Slot ${index + 1}',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Enter your name'),
+                decoration: InputDecoration(labelText: 'Enter your name',labelStyle: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 139, 12, 12),fontWeight: FontWeight.bold)),
               ),
               SizedBox(height: 10),
-              Text('Random Number: $randomNumber'),
+              Text('Random Number: $randomNumber',style: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 139, 12, 12),fontWeight: FontWeight.bold)),
             ],
           ),
           actions: [
@@ -1428,7 +1422,7 @@ SizedBox(height: screenheight*0.02,)
               });
 
               },
-              child: Text('Book Seat'),
+              child: Text('Book Seat',style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold)),
             ),
           ],
         );

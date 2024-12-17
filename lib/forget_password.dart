@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hair/main.dart';
+import 'package:hair/log_ui.dart';
 import 'package:shimmer/shimmer.dart';
 
 
@@ -25,7 +25,7 @@ class _forgetpasswordState extends State<forgetpassword> {
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(backgroundColor: Colors.red,content: Text('Check your mailbox ',style:TextStyle(fontSize: 15))));
 
-     Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => AdminPage()),(route) => false,);
+     Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => LogInUpPage()),(route) => false,);
        return false;
 
       //  Navigator.push(context, MaterialPageRoute(builder: (context) => ()));
@@ -98,7 +98,8 @@ class _forgetpasswordState extends State<forgetpassword> {
             scale: 2.0, 
    
            // child:Lottie.asset('assets/ANIMATION/CFdtDNhIMp.json')
-            ),),
+            )
+            ,),
           ),
 
           

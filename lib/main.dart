@@ -314,7 +314,7 @@ class _AdminPageState extends State<AdminPage> {
       },
       child:
      Scaffold(
-      backgroundColor: Colors.white10,
+      backgroundColor: Colors.white,
       // appBar: AppBar(
       //   leading: GestureDetector(onTap:(){
       //     Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()));

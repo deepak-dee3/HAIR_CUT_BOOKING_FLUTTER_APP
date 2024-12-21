@@ -509,9 +509,9 @@ class UserDashboard extends StatelessWidget {
        SizedBox(height: screenheight*0.01,),
         Align(
         alignment: Alignment.centerLeft,
-         child: Row(children:[ Icon(Icons.cut,size: 40,color: Color.fromARGB(255, 220, 154, 55),)
+         child: Row(children:[ Icon(Icons.cut,size: 25,color: Color.fromARGB(255, 220, 154, 55),)
          ,Text('-------------------',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),
-          fontSize: 20, // Adjust the font size as neede
+          fontSize: 17, // Adjust the font size as neede
             fontWeight: FontWeight.bold, ),)
          ])
        ),

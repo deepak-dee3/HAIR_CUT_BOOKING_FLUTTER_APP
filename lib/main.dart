@@ -87,51 +87,14 @@ bool isOn = false;
       child:
      Scaffold(
       backgroundColor: Colors.white,
-           appBar: AppBar(
-        title: Text('Admin Page'),
-        actions: [
-          Switch(
-            value: isOn,
-            onChanged: _toggleSwitch,
-          ),
-        ],
-      ),
-
-
-      
-      // appBar: AppBar(
-      //   leading: GestureDetector(onTap:(){
-      //     Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()));
-
-      //   }
-      //     ,child: Icon(Icons.abc_outlined)),
+      //      appBar: AppBar(
+      //   title: Text('Admin Page'),
       //   actions: [
-      //     GestureDetector(
-      //       child: Icon(Icons.login),
-      //       onTap: () {
-      //         Navigator.push(context, MaterialPageRoute(builder: (context) => LogInUpPage()));
-      //       },
+      //     Switch(
+      //       value: isOn,
+      //       onChanged: _toggleSwitch,
       //     ),
-      //     GestureDetector(
-      //       child: Icon(Icons.sign_language),
-      //       onTap: () {
-      //        // Navigator.push(context, MaterialPageRoute(builder: (context) => SignInUpPage()));
-      //       },
-      //     ),
-      //     GestureDetector(
-      //       child: Icon(Icons.blender_outlined),
-      //       onTap: () {
-      //        // Navigator.push(context, MaterialPageRoute(builder: (context) => AuthService()));
-      //       },
-      //     ),
-      //     GestureDetector(
-      //       child: Icon(Icons.password),
-      //       onTap: () {
-      //        // Navigator.push(context, MaterialPageRoute(builder: (context) => Payment_Page()));
-      //       },
-      //     )
       //   ],
-      //   title: Text('Admin Seat Management'),
       // ),
       body: ListView(
         children: [
@@ -145,8 +108,23 @@ bool isOn = false;
                 color: Color(0xFF681E1E),
               ),
               child: Align(alignment: Alignment.center,
+              
                 child: Container(
-                  child:Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),)
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
+                      Switch(
+                        
+                        inactiveThumbColor: Color(0xFF681E1E),
+                        inactiveTrackColor: Colors.white,
+                        activeColor: const Color.fromARGB(255, 220, 154, 55),
+            value: isOn,
+            onChanged: _toggleSwitch,
+          ),
+
+                    ],
+                  )
                 ),
               ),
             ),

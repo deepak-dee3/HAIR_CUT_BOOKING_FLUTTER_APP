@@ -20,7 +20,7 @@ class _admin_off_pageState extends State<admin_off_page> {
       child:
     Scaffold(
       body:Center(
-        child: Container(child:Text('hello')),
+        child: Container(child:Text('CURRENTLY CLOSED',style: TextStyle(fontSize: 24,color: Colors.red,fontWeight: FontWeight.bold),)),
       )
     ));
   }

@@ -13,13 +13,13 @@ import 'package:hair/status_of_booking.dart';
 import 'package:hair/testing/booking_pags.dart'; // for generating random numbers
 
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
+class MyApp1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,48 +29,276 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// AdminPage: Admin manages the seats
+// class AdminPage extends StatefulWidget {
+//   @override
+//   _AdminPageState createState() => _AdminPageState();
+// }
 
-class AdminPage extends StatefulWidget {
+// class _AdminPageState extends State<AdminPage> {
+//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+//   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         actions: [
+//           GestureDetector(child: Icon(Icons.blender_outlined)
+//             ,onTap: (){
+//               // Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthPage()));
+//                Navigator.push(context, MaterialPageRoute(builder: (context)=>AuthService()));
+
+
+//            // Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInPage()));
+//            // Navigator.push(context, MaterialPageRoute(builder: (context)=>RandomNumberPage()));
+//           },),
+//            GestureDetector(child: Icon(Icons.password)
+//             ,onTap: (){
+
+//             Navigator.push(context, MaterialPageRoute(builder: (context)=>MainPage()));
+//           },)
+//         ],
+//         leading: GestureDetector(child: Icon(Icons.abc),
+//           onTap: (){
+//           //Navigator.push(context, MaterialPageRoute(builder: (context)=>CustomerPage()));
+//         },),
+//         title: Text('Admin Seat Management'),
+//       ),
+//       body: ListView(
+//         children: [
+//           _buildTimeslotSection("Morning"),
+//           _buildTimeslotSection("Noon"),
+//           _buildTimeslotSection("Evening"),
+//           _buildTimeslotSection("Night"),
+//         ],
+//       ),
+//     );
+//   }
+
+//   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
+//   Widget _buildTimeslotSection(String timeslot) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             '$timeslot: 20 seats',
+//             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//           ),
+//           StreamBuilder<DocumentSnapshot>(
+//             stream: _firestore
+//                 .collection(currentDate)
+//                 .doc(timeslot)
+//                 .snapshots(),
+//             builder: (context, snapshot) {
+//               if (!snapshot.hasData) {
+//                 return Center(child: CircularProgressIndicator());
+//               }
+
+//               if (!snapshot.data!.exists) {
+//                 _createDefaultDocument(timeslot);
+//                 return Center(child: CircularProgressIndicator());
+//               }
+
+//               var seatData = snapshot.data!['seats'] ?? [];
+//               return Column(
+//                 children: [
+//                   GridView.builder(
+//                     shrinkWrap: true,
+//                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                       crossAxisCount: 5,
+//                       mainAxisSpacing: 8.0,
+//                       crossAxisSpacing: 8.0,
+//                     ),
+//                     itemCount: seatData.length,
+//                     itemBuilder: (context, index) {
+//                       bool isSeatApproved =
+//                           seatData[index]["status"] == "Approved";
+
+//                       return GestureDetector(
+//                         // onDoubleTap: isSeatApproved
+//                         //     ? () => _onDoubleTap(index, seatData, timeslot)
+//                         //     : null,
+
+                    
+                        
+                       
+//                         onTap: isSeatApproved
+//                             ? null // Prevent action if the seat is approved
+//                             : () => _showApprovalDialog(index, seatData, timeslot),
+//                         child: Container(
+//                           alignment: Alignment.center,
+//                           decoration: BoxDecoration(
+//                             color: _getSeatColor(seatData[index]["status"]),
+//                             borderRadius: BorderRadius.circular(20),
+//                             border: isSeatApproved
+//                                 ? Border.all(color: Colors.grey, width: 2)
+//                                 : null, // Grey border for unclickable seats
+//                           ),
+//                           child: Text(
+//                             '${index + 1}',
+//                             style: TextStyle(
+//                               color: isSeatApproved
+//                                   ? Colors.grey
+//                                   : Colors.white, // Grey text if the seat is unclickable
+//                               fontSize: 16,
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                   ElevatedButton.icon(
+//                     onPressed: () => _addNewSeats(timeslot),
+//                     icon: Icon(Icons.add),
+//                     label: Text("Add 5 seats"),
+//                   ),
+//                 ],
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   // Create a default document in Firestore for each timeslot if it doesn't exist
+//   void _createDefaultDocument(String timeslot) async {
+//     List<Map<String, dynamic>> seats = List.generate(
+//       20, // Assume there are initially 20 seats
+//       (index) => {
+//         'status': 'Pending',
+//         'name': '',
+//         'randomNumber': '',
+//       },
+//     );
+
+//     await _firestore.collection(currentDate).doc(timeslot).set({
+//       'seats': seats,
+//     });
+//   }
+
+//   // Add 5 new seats to the timeslot in Firestore
+//   void _addNewSeats(String timeslot) async {
+//     DocumentSnapshot snapshot = await _firestore
+//         .collection(currentDate)
+//         .doc(timeslot)
+//         .get();
+
+//     if (snapshot.exists) {
+//       List seats = snapshot['seats'];
+
+//       // Add 5 new seats to the list
+//       for (int i = 0; i < 5; i++) {
+//         seats.add({
+//           'status': 'Pending',
+//           'name': '',
+//           'randomNumber': '',
+//         });
+//       }
+
+//       // Update Firestore with the new seat list
+//       await _firestore.collection(currentDate).doc(timeslot).update({
+//         'seats': seats,
+//       });
+//     }
+//   }
+
+//   // Show the dialog for admin to approve or remove a seat
+//   _showApprovalDialog(int index, List seats, String timeslot) {
+//     TextEditingController nameController = TextEditingController();
+//     String randomNumber = seats[index]["randomNumber"];
+//     String name = seats[index]["name"];
+
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           title: Text('Manage Seat ${index + 1}'),
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+              
+//                Text('Customer Name: $name'),
+//               SizedBox(height: 10),
+//               Text('Random Number: $randomNumber'),
+//             ],
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 setState(() {
+//                   seats[index] = {
+//                     "status": "Approved",
+//                     "name": nameController.text,
+//                     "randomNumber": randomNumber
+//                   };
+//                 });
+
+//                 // Save the updated booking status in Firestore
+//                 _firestore.collection(currentDate).doc(timeslot).update({
+//                   'seats': seats,
+//                 });
+//                 Navigator.of(context).pop();
+//               },
+//               child: Text('Approve'),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 setState(() {
+//                   seats[index] = {
+//                     "status": "Removed",
+//                     "name": '',
+//                     "randomNumber": ''
+//                   };
+//                 });
+
+//                 // Remove the booking in Firestore
+//                 _firestore.collection(currentDate).doc(timeslot).update({
+//                   'seats': seats,
+//                 });
+//                 Navigator.of(context).pop();
+//               },
+//               child: Text('Remove'),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+
+
+
+  
+
+//   // Get the color of the seat based on its status
+//   Color _getSeatColor(String status) {
+//     switch (status) {
+//       case 'Requested':
+//         return Colors.orange;
+//       case 'Approved':
+//         return Colors.green;
+//       case 'Removed':
+//         return Colors.red;
+      
+      
+//       default:
+//         return Colors.blue; // Pending status
+//     }
+//   }
+// }
+
+///////////////////////////////////////////////////////////////////////////imp////////////////////////////////
+class AdminPage1 extends StatefulWidget {
   @override
-  _AdminPageState createState() => _AdminPageState();
+  _AdminPage1State createState() => _AdminPage1State();
 }
 
-class _AdminPageState extends State<AdminPage> {
+class _AdminPage1State extends State<AdminPage1> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
-
-bool isOn = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchStatus();
-  }
-
-  _fetchStatus() async {
-    // Fetch the current status from Firestore (or your database)
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Settings')
-        .doc('salonAvailability')
-        .get();
-    setState(() {
-      isOn = snapshot.exists ? snapshot['isOn'] ?? false : false;
-    });
-  }
-
-  _toggleSwitch(bool value) async {
-    setState(() {
-      isOn = value;
-    });
-
-    // Update the status in Firestore (or your database)
-    await FirebaseFirestore.instance
-        .collection('Settings')
-        .doc('salonAvailability')
-        .set({'isOn': isOn});
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,18 +315,6 @@ bool isOn = false;
       child:
      Scaffold(
       backgroundColor: Colors.white,
-           appBar: AppBar(
-        title: Text('Admin Page'),
-        actions: [
-          Switch(
-            value: isOn,
-            onChanged: _toggleSwitch,
-          ),
-        ],
-      ),
-
-
-      
       // appBar: AppBar(
       //   leading: GestureDetector(onTap:(){
       //     Navigator.push(context, MaterialPageRoute(builder: (context) => AdminPage()));
@@ -225,7 +441,146 @@ bool isOn = false;
     ));
   }
 
+  // Function to build the UI for each timeslot section (Morning, Noon, etc.)
+  // Widget _buildTimeslotSection(String timeslot) {
+  //    var screenheight = MediaQuery.of(context).size.height;
+  //   var screenwidth = MediaQuery.of(context).size.width;
+  //   return Column(
+  //     children:[
 
+        
+  //        Column(
+  //          crossAxisAlignment: CrossAxisAlignment.start,
+  //          children: [
+             
+  //           //  Text(
+  //           //    '$timeslot: 20 seats',
+  //           //    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //           //  ),
+           
+  //            Padding(padding: EdgeInsets.only(left: 16,right: 16),
+  //              child: Container(
+  //               height: screenheight*0.07,
+  //               width: double.infinity,
+  //               // decoration: BoxDecoration(
+  //               //   color: Colors.white
+  //               // ),
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 children: [
+  //                   Container(
+  //                     height: screenheight*0.06,
+  //                     width: screenwidth*0.5,
+  //                     decoration: BoxDecoration( borderRadius: BorderRadius.circular(18),
+  //                       color: Color(0xFF681E1E),),
+  //                       child: Align(alignment: Alignment.centerLeft,
+  //                         child: Text('    $timeslot',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),
+                      
+  //                     //width: double.infinity,
+                     
+  //                   ),
+  //                   //  Container(
+  //                   //   height: screenheight*0.05,
+  //                   //   width: screenwidth*0.4,
+                      
+  //                   //   //width: double.infinity,
+  //                   //   color: Colors.white,
+  //                   //   child: Text('Timings : '),
+  //                   // )
+  //                   SizedBox(width: screenwidth*0.05,),
+  //                   GestureDetector( onTap: () => _addNewSeats(timeslot),
+  //                     child: CircleAvatar(
+  //                       radius: 25,
+  //                       backgroundColor: const Color.fromARGB(255, 220, 154, 55),
+  //                       child: Icon(Icons.person_add_alt_1_rounded,color: Color(0xFF681E1E),),
+  //                     ),
+  //                   )
+  //                 ],
+  //               ),
+  //              ),
+  //            ),
+  //            SizedBox(height: screenheight*0.03,),
+  //            Padding(padding: EdgeInsets.only(left: 16,right: 16),
+             
+  //              child: StreamBuilder<DocumentSnapshot>(
+  //                stream: _firestore
+  //                    .collection(currentDate)
+  //                    .doc(timeslot)
+  //                    .snapshots(),
+  //                builder: (context, snapshot) {
+  //                  if (!snapshot.hasData) {
+  //                    return Center(child: CircularProgressIndicator());
+  //                  }
+                 
+  //                  if (!snapshot.data!.exists) {
+  //                    _createDefaultDocument(timeslot);
+  //                    return Center(child: CircularProgressIndicator());
+  //                  }
+                 
+  //                  var seatData = snapshot.data!['seats'] ?? [];
+  //                  return Padding(padding: EdgeInsets.all(16),
+  //                    child: Column(
+  //                      children: [
+  //                        SingleChildScrollView(
+  //                         scrollDirection: Axis.vertical,
+  //                          child: GridView.builder(
+  //                            shrinkWrap: true,
+  //                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //                              crossAxisCount: 5,
+  //                              mainAxisSpacing: 16.0,
+  //                              crossAxisSpacing: 16.0,
+  //                            ),
+  //                            itemCount: seatData.length,
+  //                            itemBuilder: (context, index) {
+  //                              bool isSeatApproved =
+  //                                  seatData[index]["status"] == "Approved";
+  //                              Color seatColor = _getSeatColor(seatData[index]["status"]);
+                                        
+  //                              return GestureDetector(
+  //                                onDoubleTap: isSeatApproved
+  //                                    ? () => _onDoubleTap(index, seatData, timeslot)
+  //                                    : null, // Only double-tap if the seat is approved
+  //                                onTap: isSeatApproved
+  //                                    ? null // Prevent tap if the seat is approved
+  //                                    : () => _showApprovalDialog(index, seatData, timeslot),
+  //                                child: Container(
+  //                                  alignment: Alignment.center,
+  //                                  decoration: BoxDecoration(
+  //                                    color: seatColor,
+  //                                    borderRadius: BorderRadius.circular(20),
+  //                                    border: isSeatApproved
+  //                                        ? Border.all(color: Colors.blue, width: 2)
+  //                                        : null, // Grey border for unclickable seats
+  //                                  ),
+  //                                  child: Text(
+  //                                    '${index + 1}',
+  //                                    style: TextStyle(
+  //                                      color: isSeatApproved
+  //                                          ? Colors.white
+  //                                          : Colors.white, // Grey text if the seat is unclickable
+  //                                      fontSize: 16,
+  //                                    ),
+  //                                  ),
+  //                                ),
+  //                              );
+  //                            },
+  //                          ),
+  //                        ),
+  //                       //  ElevatedButton.icon(
+  //                       //    onPressed: () => _addNewSeats(timeslot),
+  //                       //    icon: Icon(Icons.add),
+  //                       //    label: Text("Add 5 seats"),
+  //                       //  ),
+  //                      ],
+  //                    ),
+  //                  );
+  //                },
+  //              ),
+  //            ),
+  //          ],
+  //        ),
+  //   ]);
+  // }
   Widget _buildTimeslotSection(String timeslot,timings) {
   var screenheight = MediaQuery.of(context).size.height;
   var screenwidth = MediaQuery.of(context).size.width;
@@ -500,18 +855,204 @@ bool isOn = false;
 ////////////////////////////////////////////////////////////////////////inp///////////////////////////////
 
 
+// // Customer Page
+// class CustomerPage extends StatefulWidget {
 
 
-class CustomerPage extends StatefulWidget {
+//   final String userId;
+
+//   CustomerPage({required this.userId});
+  
+  
+//   @override
+//   _CustomerPageState createState() => _CustomerPageState();
+// }
+
+// class _CustomerPageState extends State<CustomerPage> {
+//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+//   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
+
+  
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Customer Seat Booking'),
+//       ),
+//       body: ListView(
+//         children: [
+//           _buildTimeslotSection("Morning"),
+//           _buildTimeslotSection("Noon"),
+//           _buildTimeslotSection("Evening"),
+//           _buildTimeslotSection("Night"),
+//         ],
+//       ),
+//     );
+//   }
+
+//   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
+//   Widget _buildTimeslotSection(String timeslot) {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Text(
+//             '$timeslot: 20 seats',
+//             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//           ),
+//           StreamBuilder<DocumentSnapshot>(
+//             stream: _firestore
+//                 .collection(currentDate)
+//                 .doc(timeslot)
+//                 .snapshots(),
+//             builder: (context, snapshot) {
+//               if (!snapshot.hasData) {
+//                 return Center(child: CircularProgressIndicator());
+//               }
+
+//               if (!snapshot.data!.exists) {
+//                 return Center(child: CircularProgressIndicator());
+//               }
+
+//               var seatData = snapshot.data!['seats'] ?? [];
+//               return Column(
+//                 children: [
+//                   GridView.builder(
+//                     shrinkWrap: true,
+//                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                       crossAxisCount: 5,
+//                       mainAxisSpacing: 8.0,
+//                       crossAxisSpacing: 8.0,
+//                     ),
+//                     itemCount: seatData.length,
+//                     itemBuilder: (context, index) {
+//                       return GestureDetector(
+//                         onTap: seatData[index]["status"] == "Pending"
+//                             ? () => _showBookingDialog(index, seatData, timeslot)
+//                             : null, // Make it unclickable if already booked
+//                         child: Container(
+//                           alignment: Alignment.center,
+//                           decoration: BoxDecoration(
+//                             color: _getSeatColor(seatData[index]["status"]),
+//                             borderRadius: BorderRadius.circular(20),
+//                           ),
+//                           child: Text(
+//                             '${index + 1}',
+//                             style: TextStyle(
+//                               color: Colors.white,
+//                               fontSize: 16,
+//                             ),
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                 ],
+//               );
+//             },
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+//   _showBookingDialog(int index, List seats, String timeOfDay) {
+//   TextEditingController nameController = TextEditingController();
+//   String randomNumber = _generateRandomNumber(); // Generate a random number
+
+//   String ini_ran_num = randomNumber;
+//   String cr = currentDate; 
+  
+
+//   showDialog(
+//     context: context,
+//     builder: (context) {
+//       return AlertDialog(
+//         title: Text('Book Seat ${index + 1}'),
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             TextField(
+//               controller: nameController,
+//               decoration: InputDecoration(labelText: 'Enter your name'),
+//             ),
+//             SizedBox(height: 10),
+//             Text('Random Number: $randomNumber'),
+//           ],
+//         ),
+//         actions: [
+//           TextButton(
+//             onPressed: () {
+//               setState(() {
+//                 seats[index] = {
+//                   "status": "Requested",
+//                   "name": nameController.text,
+//                   "randomNumber": randomNumber, // Save the random number
+//                 };
+//               });
+
+//               // Save the booking in Firestore
+//               _firestore.collection(currentDate).doc(timeOfDay).update({
+//                 'seats': seats,
+//               });
+//               Navigator.of(context).pop(); // Close the dialog
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   builder: (context) => RandomNumberPage(
+//                     name: nameController.text,
+//                     randomNumber: randomNumber,
+//                     date: currentDate,
+//                     adminNumber: "9090897654",
+//                   ),
+//                 ),
+//               );
+//                FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
+//     'initial_random_number': randomNumber,
+//     'date':cr,
+//   });
+//             },
+//             child: Text('Book Seat'),
+//           ),
+//         ],
+//       );
+//     },
+//   );
+// }
+
+// // Generate a random number for the customer
+// String _generateRandomNumber() {
+//   var rng = Random();
+//   return (rng.nextInt(10000) + 1000).toString(); // Generate a 4-digit random number
+// }
+
+
+//   // Get the color of the seat based on its status
+//   Color _getSeatColor(String status) {
+//     switch (status) {
+//       case 'Requested':
+//         return Colors.orange;
+//       case 'Approved':
+//         return Colors.green;
+//       case 'Removed':
+//         return Colors.red;
+//       default:
+//         return Colors.blue; // Pending status
+//     }
+//   }
+// }
+
+class CustomerPage1 extends StatefulWidget {
   final String userId;
 
-  CustomerPage({required this.userId});
+  CustomerPage1({required this.userId});
 
   @override
-  _CustomerPageState createState() => _CustomerPageState();
+  _CustomerPage1State createState() => _CustomerPage1State();
 }
 
-class _CustomerPageState extends State<CustomerPage> {
+class _CustomerPage1State extends State<CustomerPage1> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
 
@@ -694,7 +1235,63 @@ class _CustomerPageState extends State<CustomerPage> {
         ),
       ),
       SizedBox(height: screenheight * 0.02),
-
+        // Text(
+        //   '$timeslot: 20 seats',
+        //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        // ),
+        // Padding(padding: EdgeInsets.only(left: 16, right: 16),
+        //   child: StreamBuilder<DocumentSnapshot>(
+        //     stream: _firestore
+        //         .collection(currentDate)
+        //         .doc(timeslot)
+        //         .snapshots(),
+        //     builder: (context, snapshot) {
+        //       if (!snapshot.hasData) {
+        //         return Center(child: CircularProgressIndicator());
+        //       }
+              
+        //       if (!snapshot.data!.exists) {
+        //         return Center(child: CircularProgressIndicator());
+        //       }
+              
+        //       var seatData = snapshot.data!['seats'] ?? [];
+        //       return Column(
+        //         children: [
+        //           GridView.builder(
+        //             shrinkWrap: true,
+        //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //               crossAxisCount: 15,
+        //               mainAxisSpacing: 8.0,
+        //               crossAxisSpacing: 8.0,
+        //             ),
+        //             itemCount: seatData.length,
+        //             itemBuilder: (context, index) {
+        //               return GestureDetector(
+        //                 onTap: seatData[index]["status"] == "Pending"
+        //                     ? () => _showBookingDialog(index, seatData, timeslot)
+        //                     : null, // Make it unclickable if already booked
+        //                 child: Container(
+        //                   alignment: Alignment.center,
+        //                   decoration: BoxDecoration(
+        //                     color: _getSeatColor(seatData[index]["status"]),
+        //                     borderRadius: BorderRadius.circular(20),
+        //                   ),
+        //                   child: Text(
+        //                     '${index + 1}',
+        //                     style: TextStyle(
+        //                       color: Colors.white,
+        //                       fontSize: 16,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               );
+        //             },
+        //           ),
+        //         ],
+        //       );
+        //     },
+        //   ),
+        // ),
         Padding(
   padding: EdgeInsets.only(left: 16, right: 16),
   child: StreamBuilder<DocumentSnapshot>(
@@ -871,31 +1468,6 @@ SizedBox(height: screenheight*0.02,)
       default:
         return Colors.grey; // Pending status
     }
-  }
-}
-
-
-class DashboardPage1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Dashboard')),
-      body: Center(
-        child: Text('This is the Dashboard'),
-      ),
-    );
-  }
-}
-
-class AdminOffPage1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Admin Off')),
-      body: Center(
-        child: Text('Admin Off Page'),
-      ),
-    );
   }
 }
 

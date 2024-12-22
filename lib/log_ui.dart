@@ -187,7 +187,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
                         hintText: 'Name',
                         filled: true,
                         fillColor: Colors.grey[200],
-                        suffixIcon: const Icon(Icons.lock_outline,shadows: [
+                        suffixIcon: const Icon(Icons.password,shadows: [
                           Shadow(
                             color: Color(0xFF681E1E),
                             //blurRadius: 3,

@@ -138,7 +138,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           ),
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.email_outlined),
-                            hintText: 'Enter your email here',
+                            hintText: 'Email',
                             hintStyle: TextStyle(
                               fontSize: 14,
                               color: Colors.grey[500],

@@ -32,9 +32,10 @@ class MyApp extends StatelessWidget{
       splash:Center(child:Container(height: screenheight*0.5,width: double.infinity,
         child:Column(
         children: [
-          Icon(Icons.cut , size: 35,),
+          Icon(Icons.cut , size: 35,color: const Color.fromARGB(255, 220, 154, 55),),
+          Spacer(),
          // SizedBox(height: screenheight*0.02,),
-          Text('Booking System',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)
+          Text('Booking System',style: TextStyle(color: Color(0xFF681E1E),fontWeight: FontWeight.bold,fontSize: 22),)
         ],
       ),)),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),
       duration: 3000,
@@ -522,6 +523,8 @@ class _CustomerPageState extends State<CustomerPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
 
+ 
+
 
 
   @override
@@ -547,6 +550,7 @@ class _CustomerPageState extends State<CustomerPage> {
       //   },
       //     child: Icon(Icons.book_rounded)),
       // ),
+      
       body: ListView(
         children: [
           SizedBox(height: screenheight*0.02,),

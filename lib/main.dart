@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ import 'package:hair/random_number_page.dart';
 import 'package:hair/signin_login.dart';
 import 'package:hair/signup_login.dart';
 import 'package:hair/status_of_booking.dart';
-import 'package:hair/testing/booking_pags.dart'; // for generating random numbers
+import 'package:hair/testing/booking_pags.dart';
+import 'package:page_transition/page_transition.dart'; // for generating random numbers
 
 
 void main() async {
@@ -19,15 +21,33 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: LogInUpPage(),
-    );
-  }
+       debugShowCheckedModeBanner: false,
+      home:AnimatedSplashScreen(nextScreen: LogInUpPage() ,
+      splash:Icon(Icons.cut , size: 35,),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),
+      duration: 3000,
+     
+      backgroundColor: Colors.white,
+      pageTransitionType:PageTransitionType.leftToRight,
+     
+     
+    ));
+    }
+
 }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: LogInUpPage(),
+//     );
+//   }
+// }
 
 
 class AdminPage extends StatefulWidget {

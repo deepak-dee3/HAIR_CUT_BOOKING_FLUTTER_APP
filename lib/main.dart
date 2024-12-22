@@ -12,7 +12,7 @@ import 'package:hair/signin_login.dart';
 import 'package:hair/signup_login.dart';
 import 'package:hair/status_of_booking.dart';
 import 'package:hair/testing/booking_pags.dart';
-import 'package:page_transition/page_transition.dart'; // for generating random numbers
+import 'package:page_transition/page_transition.dart'; 
 
 
 void main() async {
@@ -24,10 +24,19 @@ void main() async {
 class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+     var screenheight = MediaQuery.of(context).size.height;
+    var screenwidth = MediaQuery.of(context).size.width;
     return MaterialApp(
        debugShowCheckedModeBanner: false,
       home:AnimatedSplashScreen(nextScreen: LogInUpPage() ,
-      splash:Icon(Icons.cut , size: 35,),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),
+      splash:Center(child:Container(height: screenheight*0.5,width: double.infinity,
+        child:Column(
+        children: [
+          Icon(Icons.cut , size: 35,),
+         // SizedBox(height: screenheight*0.02,),
+          Text('Booking System',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),)
+        ],
+      ),)),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),
       duration: 3000,
      
       backgroundColor: Colors.white,

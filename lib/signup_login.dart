@@ -556,7 +556,7 @@ class UserDashboard extends StatelessWidget {
                 Container(
                   height: screenheight * 0.25,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(20),
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: _images.length,
@@ -589,7 +589,7 @@ class UserDashboard extends StatelessWidget {
             decoration: BoxDecoration(
               color: const Color(0xFFFFD3C6),
              //color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(20),
                boxShadow: [
       BoxShadow(
         color: Colors.black.withOpacity(0.2), // Black color with opacity for softer shadow
@@ -689,7 +689,7 @@ class UserDashboard extends StatelessWidget {
         spreadRadius: 2, // How much the shadow should spread
       ),
     ],
-                color: Color(0xFF681E1E),borderRadius: BorderRadius.circular(5)),
+                color: Color(0xFF681E1E),borderRadius: BorderRadius.circular(20)),
               child: Column(
                 children: [
                   SizedBox(height: screenheight*0.02,),

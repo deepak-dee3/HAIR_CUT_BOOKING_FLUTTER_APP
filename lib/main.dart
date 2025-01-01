@@ -15,6 +15,7 @@ import 'package:hair/signup_login.dart';
 import 'package:hair/status_of_booking.dart';
 import 'package:hair/testing/booking_pags.dart';
 import 'package:page_transition/page_transition.dart'; 
+import 'dart:ui'; 
 
 
 void main() async {
@@ -138,58 +139,6 @@ int selectedSection = 0;
                     children: [
                       Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                       
-//                       StreamBuilder<QuerySnapshot>(
-//                       stream: _firestore.collection(currentDate).snapshots(),
-//                       builder: (context, snapshot) {
-//                         if (!snapshot.hasData) {
-//                           return Stack(
-//                             children: [
-//                               Icon(Icons.notifications, color: Colors.white),
-//                               Positioned(
-//                                 right: 0,
-//                                 child: CircleAvatar(
-//                                   radius: 8,
-//                                   backgroundColor: Colors.red,
-//                                   child: Text(
-//                                     '0',
-//                                     style: TextStyle(
-//                                       color: Colors.white,
-//                                       fontSize: 10,
-//                                       fontWeight: FontWeight.bold,),),),),],);}
-
-//                         num yellowSeatsCount = 0;
-
-// for (var doc in snapshot.data!.docs) {
-//   var seatData = doc['seats'] ?? [];
-//   yellowSeatsCount += seatData
-//       .where((seat) => seat['status'] == 'Requested')
-//       .length;
-// }
-
-
-//                         return Stack(
-//                           children: [
-//                             Icon(Icons.notifications, color: Colors.white),
-//                             if (yellowSeatsCount > 0)
-//                               Positioned(
-//                                 right: 0,
-//                                 child: CircleAvatar(
-//                                   radius: 8,
-//                                   backgroundColor: Colors.red,
-//                                   child: Text(
-//                                     '$yellowSeatsCount',
-//                                     style: TextStyle(
-//                                       color: Colors.white,
-//                                       fontSize: 10,
-//                                       fontWeight: FontWeight.bold,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                           ],
-//                         );
-//                       },
-//                     ),
 
           
 
@@ -713,8 +662,6 @@ int selectedSection = 0;
 ////////////////////////////////////////////////////////////////////////inp///////////////////////////////
 
 
-
-
 class CustomerPage extends StatefulWidget {
   final String userId;
 
@@ -727,69 +674,151 @@ class CustomerPage extends StatefulWidget {
 class _CustomerPageState extends State<CustomerPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
+  int _selectedIndex = 0; // Index for the selected timeslot
 
- 
-
-
+  // List of timeslot names
+  final List<String> _timeslots = ["Morning", "Noon", "Evening", "Night"];
 
   @override
   Widget build(BuildContext context) {
-     var screenheight = MediaQuery.of(context).size.height;
-    var screenwidth = MediaQuery.of(context).size.width;
-   
+    var screenHeight = MediaQuery.of(context).size.height;
+    var screenWidth = MediaQuery.of(context).size.width;
+
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context);
-       return false;
-        
+        return false;
       },
-      child:
-    Scaffold(
-      backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   title: Text('Customer Seat Booking'),
-      //   leading: GestureDetector(onTap:(){
-      //     Navigator.push(context, MaterialPageRoute(builder: (context) => StatusOfBooking(userId: widget.userId)));
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        
+        body: Column(
+          children: [
+            SizedBox(height: screenHeight * 0.03),
+    //         Padding(
+    //           padding: EdgeInsets.only(left: 16, right: 16),
+    //           child: Container(
+                
+    //             height: screenHeight * 0.23,
+    //             width: double.infinity,
+    //             decoration: BoxDecoration(
+    //               color: Colors.white,
+    //                 boxShadow: [
+    //   BoxShadow(
+    //     color: Colors.black.withOpacity(0.2), // Black color with opacity for softer shadow
+    //     offset: Offset(0, 4), // Horizontal and vertical displacement of the shadow
+    //     blurRadius: 6, // Blur radius to make the shadow softer
+    //     spreadRadius: 1, // How much the shadow should spread
+    //   ),
+    // ],
+    //               borderRadius: BorderRadius.circular(25),
+    //               //color: Color(0xFF681E1E),
+    //             ),
+    //             child: Align(
+    //               alignment: Alignment.center,
+    //               child: Text(
+    //                 'Hello , Buddy',
+    //                 style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+    //               ),
+    //             ),
+    //           ),
+    //         ),
            
-
-      //   },
-      //     child: Icon(Icons.book_rounded)),
-      // ),
-      
-      body: ListView(
+// Padding(
+//   padding: EdgeInsets.only(left: 16, right: 16),
+//   child: Container(
+//     height: screenHeight * 0.23,
+//     width: double.infinity,
+//     decoration: BoxDecoration(
+//       color: Colors.white,
+//       boxShadow: [
+//         BoxShadow(
+//           color: Colors.black.withOpacity(0.2), // Black color with opacity for softer shadow
+//           offset: Offset(0, 4), // Horizontal and vertical displacement of the shadow
+//           blurRadius: 6, // Blur radius to make the shadow softer
+//           spreadRadius: 1, // How much the shadow should spread
+//         ),
+//       ],
+//       borderRadius: BorderRadius.circular(25),
+//     ),
+//     child: ClipRRect(
+//       borderRadius: BorderRadius.circular(25),
+//       child: BackdropFilter(
+//         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0), // Apply blur
+//         child: Container(
+//           height: double.infinity,
+//           width: double.infinity,
+//           decoration: BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage('assets/llll.jpeg'), // Your image path
+//               fit: BoxFit.cover,
+//             ),
+//             borderRadius: BorderRadius.circular(25),
+//           ),
+//         ),
+//       ),
+//     ),
+//   ),
+// ),
+Padding(
+  padding: EdgeInsets.only(left: 16, right: 16),
+  child: Container(
+    height: screenHeight * 0.23,
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2), 
+          offset: Offset(0, 4), 
+          blurRadius: 6, 
+          spreadRadius: 1, 
+        ),
+      ],
+      borderRadius: BorderRadius.circular(25),
+    ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(25),
+      child: Stack(
         children: [
-          SizedBox(height: screenheight*0.02,),
-          Padding(padding: EdgeInsets.only(left: 16,right: 16),
-            child: Container(
-              height: screenheight*0.13,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                color: Color(0xFF681E1E),
-              ),
-              child: Align(alignment: Alignment.center,
-                child: Container(
-                  child:Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),)
+          // Background image with blur effect
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0), // Apply blur effect
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/llll.jpeg'), // Your image path
+                    fit: BoxFit.cover, // Make sure the image covers the entire container
+                  ),
+                  borderRadius: BorderRadius.circular(25),
                 ),
               ),
             ),
           ),
-          SizedBox(height: screenheight*0.04,),
-
-          Padding(padding: EdgeInsets.only(left: 16,right: 16),
+          // You can add additional content here, if needed
+        ],
+      ),
+    ),
+  ),
+),
+           SizedBox(height: screenHeight * 0.05),
+                     Padding(padding: EdgeInsets.only(left: 16,right: 16),
             child: Container(
               decoration: BoxDecoration(
-                 color: const Color.fromARGB(255, 220, 154, 55),
-                 borderRadius: BorderRadius.circular(20),
                  boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5), // Shadow color
-        spreadRadius: 5, // Spread radius
-        blurRadius: 7, // Blur radius
-        offset: Offset(0, 3), // Shadow offset (x, y)
-      ),],
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ], 
+                 color: const Color.fromARGB(255, 220, 154, 55),
+                 //color: Color(0xFFF0E0D6),
+                 borderRadius: BorderRadius.circular(20)
               ),
-              height: screenheight*0.2,
+              height: screenHeight*0.18,
              
               child: Center(
                 child: Column(
@@ -802,192 +831,170 @@ class _CustomerPageState extends State<CustomerPage> {
                         children: [
                          Row(children:[ 
                          CircleAvatar(radius: 10,backgroundColor: Colors.grey,),
-                         SizedBox(width: screenwidth*0.03,),
+                         SizedBox(width: screenWidth*0.03,),
                          Text('Available',style: TextStyle(fontWeight: FontWeight.bold),)
                          ]),
                       Row(children:[ 
                         CircleAvatar(radius: 10,backgroundColor: Color.fromARGB(255, 229, 225, 10),),
-                        SizedBox(width: screenwidth*0.03,),
+                        SizedBox(width: screenWidth*0.03,),
                         Text('Requested',style: TextStyle(fontWeight: FontWeight.bold),)
                         ]),]),
                     ),
                 
-                    SizedBox(height: screenheight*0.03,),
+                    SizedBox(height: screenHeight*0.03,),
                 
                        Padding(padding: EdgeInsets.only(left: 16,right: 16),
                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                          Row(children:[ 
                          CircleAvatar(radius: 10,backgroundColor: Colors.blue,),
-                         SizedBox(width: screenwidth*0.03,),
+                         SizedBox(width: screenWidth*0.03,),
                          Text('Approved',style: TextStyle(fontWeight: FontWeight.bold),)
                          ]),
                                          Row(children:[ 
                                            CircleAvatar(radius: 10,backgroundColor: Colors.green,),
-                                           SizedBox(width: screenwidth*0.03,),
+                                           SizedBox(width: screenWidth*0.03,),
                                            Text('Completed',style: TextStyle(fontWeight: FontWeight.bold),)
                                            ]),]),
                        ),
-                       SizedBox(height: screenheight*0.03,),
+                       SizedBox(height: screenHeight*0.03,),
                           
                           
-                          Padding(padding: EdgeInsets.only(left: 40,right: 16),child: Align(alignment: Alignment.centerLeft,
+                          Padding(padding: EdgeInsets.only(left: 45,right: 16),child: Align(alignment: Alignment.centerLeft,
                             child: Row(
                               children:[ 
                               
                               CircleAvatar(radius: 10,backgroundColor: Colors.red,),
-                              SizedBox(width: screenwidth*0.03,),
-                              Text('Rejected',style: TextStyle(fontWeight: FontWeight.bold),),
-                              
-                              
-                              ])),)
-                  ],
-                ),
+                              SizedBox(width: screenWidth*0.03,),
+                              Text('Rejected',style: TextStyle(fontWeight: FontWeight.bold),)
+                              ])),),
+          ]),
               ),
             ),
           ),
-          SizedBox(height: screenheight*0.04,),
-          _buildTimeslotSection("Morning","06:00 am - 09:59 am"),
-          _buildTimeslotSection("Noon","10:00 am - 03:59 pm"),
-          _buildTimeslotSection("Evening","04:00 pm - 06:59 pm"),
-          _buildTimeslotSection("Night","7:00 pm - 09:00 pm"),
-        ],
+                      SizedBox(height: screenHeight * 0.05),
+            // Timeslot Selection Container (replacing BottomNavigationBar)
+            Padding(
+              padding: const EdgeInsets.only(left: 15,right: 15),
+              child: Container(
+                padding: EdgeInsets.only(left: 15,right: 15),
+                height: 60,
+                decoration: BoxDecoration(
+                   boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+                   color: Color(0xFF681E1E),
+                   borderRadius: BorderRadius.circular(40)
+                ),
+               
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(_timeslots.length, (index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _selectedIndex = index;
+                        });
+                      },
+              
+                      child:  Container(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                decoration: BoxDecoration(
+                  border: _selectedIndex == index
+                      ? Border(bottom: BorderSide(color: const Color.fromARGB(255, 220, 154, 55), width: 1.5)) // Underline when selected
+                      : null, // No border when not selected
+                ),
+                child: Text(
+                  _timeslots[index],
+                  style: TextStyle(
+                    color: _selectedIndex == index ? const Color.fromARGB(255, 220, 154, 55) : Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold, // Keep the bold text
+                  ),
+                ),
+              ),
+              
+              
+                    );
+                  }),
+                ),
+              ),
+            ),
+            _buildTimeslotSection(_timeslots[_selectedIndex]),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
-  Widget _buildTimeslotSection(String timeslot,timings) {
-    var screenheight = MediaQuery.of(context).size.height;
-  var screenwidth = MediaQuery.of(context).size.width;
+  Widget _buildTimeslotSection(String timeslot) {
+    var screenHeight = MediaQuery.of(context).size.height;
 
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-         Padding(
-        padding: EdgeInsets.only(left: 16, right: 16),
-        child: Container(
-          
-          height: screenheight * 0.07,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                height: screenheight * 0.06,
-                width: screenwidth * 0.3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: const Color(0xFF681E1E),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '    $timeslot',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: screenwidth * 0.05),
-              
-              Container(
-                height: screenheight * 0.06,
-                width: screenwidth * 0.568,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  color: const Color(0xFF681E1E),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '    $timings    ',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      SizedBox(height: screenheight * 0.02),
+    return StreamBuilder<DocumentSnapshot>(
+      stream: _firestore.collection(currentDate).doc(timeslot).snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return Center(child: CircularProgressIndicator());
+        }
 
-        Padding(
-  padding: EdgeInsets.only(left: 16, right: 16),
-  child: StreamBuilder<DocumentSnapshot>(
-    stream: _firestore.collection(currentDate).doc(timeslot).snapshots(),
-    builder: (context, snapshot) {
-      if (!snapshot.hasData || !snapshot.data!.exists) {
-        return Center(child: CircularProgressIndicator());
-      }
+        var seatData = snapshot.data!['seats'] ?? [];
 
-      var seatData = snapshot.data!['seats'] ?? [];
-      
-      return Padding(padding: EdgeInsets.all(16),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.33, // Fixed height
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 220, 154, 55),
-             boxShadow: [
-      BoxShadow(
-        color: Colors.grey.withOpacity(0.5), // Shadow color
-        spreadRadius: 5, // Spread radius
-        blurRadius: 7, // Blur radius
-        offset: Offset(0, 3), // Shadow offset (x, y)
-      ),],
-            //border: Border.all(color: Colors.grey), // Add a border for visual distinction
-            borderRadius: BorderRadius.circular(15), // Rounded corners
-            //color: Colors.white, // Optional background color
-          ),
-          child: SingleChildScrollView(
-            child: GridView.builder(
-              padding: EdgeInsets.all(10),
-              
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(), // Disable GridView's internal scrolling
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5, // Number of columns
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 16.0,
-              ),
-              itemCount: seatData.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: seatData[index]["status"] == "Pending"
-                      ? () => _showBookingDialog(index, seatData, timeslot)
-                      : null, // Make it unclickable if already booked
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: _getSeatColor(seatData[index]["status"]),
-                      borderRadius: BorderRadius.circular(20), // Seat styling
-                    ),
-                    child: Text(
-                      '${index + 1}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+        return Expanded(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            height: MediaQuery.of(context).size.height * 0.3,
+            decoration: BoxDecoration(
+            
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(40),topRight: Radius.circular(40)),
+            ),
+            child: SingleChildScrollView(
+              child: GridView.builder(
+                padding: EdgeInsets.all(10),
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 16.0,
+                  crossAxisSpacing: 16.0,
+                ),
+                itemCount: seatData.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: seatData[index]["status"] == "Pending"
+                        ? () => _showBookingDialog(index, seatData, timeslot)
+                        : null,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                         boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+                        color: _getSeatColor(seatData[index]["status"]),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
-        ),
-      );
-    },
-  ),
-),
-SizedBox(height: screenheight*0.02,)
-
-      ],
+        );
+      },
     );
   }
 
@@ -995,23 +1002,22 @@ SizedBox(height: screenheight*0.02,)
   _showBookingDialog(int index, List seats, String timeOfDay) {
     TextEditingController nameController = TextEditingController();
     String randomNumber = _generateRandomNumber(); // Generate a random number
-     String cr = currentDate; 
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           backgroundColor: const Color.fromARGB(255, 220, 154, 55),
-          title: Text('Book Slot ${index + 1}',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),
+          title: Text('Book Slot ${index + 1}', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold)),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Enter your name',labelStyle: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 139, 12, 12),fontWeight: FontWeight.bold)),
+                decoration: InputDecoration(labelText: 'Enter your name', labelStyle: TextStyle(fontSize: 13, color: const Color.fromARGB(255, 139, 12, 12), fontWeight: FontWeight.bold)),
               ),
               SizedBox(height: 10),
-              Text('Random Number: $randomNumber',style: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 139, 12, 12),fontWeight: FontWeight.bold)),
+              Text('Random Number: $randomNumber', style: TextStyle(fontSize: 13, color: const Color.fromARGB(255, 139, 12, 12), fontWeight: FontWeight.bold)),
             ],
           ),
           actions: [
@@ -1031,55 +1037,22 @@ SizedBox(height: screenheight*0.02,)
                 });
 
                 Navigator.of(context).pop(); // Close the dialog
-
-               
-                 Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => RandomNumberPage(
-                  name: nameController.text,
-                  randomNumber: randomNumber,
-                  date: currentDate,
-                  adminNumber: "9999999999",
-                ),
-              ));
-                FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
-    'initial_random_number': randomNumber,
-    'date':cr,
-  });
-
-  //               FirebaseFirestore.instance.collection('users_history').doc(widget.userId).set({
-    
-  //   '1':cr,
-  // });
-
-   final docRef = FirebaseFirestore.instance.collection('users_history').doc(widget.userId);
-
-               docRef.get().then((docSnapshot) async {
-                if (docSnapshot.exists) {
-                  // Document exists, find the next field name
-                  Map<String, dynamic>? data = docSnapshot.data();
-
-                  if (data != null) {
-                    int nextIndex = data.keys.map((key) => int.tryParse(key) ?? 0).fold(0, (a, b) => a > b ? a : b) + 1;
-
-                    // Add the new date field
-                    await docRef.update({'$nextIndex': cr});
-                  }
-                } else {
-                  // Document does not exist, create it with the first field
-                  await docRef.set({'1': cr});
-                }
-              });
-
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => RandomNumberPage(
+                    name: nameController.text,
+                    randomNumber: randomNumber,
+                    date: currentDate,
+                    adminNumber: "9999999999",
+                  ),
+                ));
               },
-              child: Text('Book Seat',style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold)),
+              child: Text('Book Seat', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             ),
           ],
         );
       },
     );
   }
-
- 
 
   // Generate a random number for the customer
   String _generateRandomNumber() {
@@ -1102,32 +1075,411 @@ SizedBox(height: screenheight*0.02,)
         return Colors.grey; // Pending status
     }
   }
-}
 
-
-class DashboardPage1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Dashboard')),
-      body: Center(
-        child: Text('This is the Dashboard'),
-      ),
+  // Widget to show the status badges (Available, Requested, etc.)
+  Widget _statusBadge(String text, Color color) {
+    return Row(
+      children: [
+        CircleAvatar(radius: 10, backgroundColor: color),
+        SizedBox(width: 8),
+        Text(text, style: TextStyle(fontWeight: FontWeight.bold)),
+      ],
     );
   }
 }
 
-class AdminOffPage1 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Admin Off')),
-      body: Center(
-        child: Text('Admin Off Page'),
-      ),
-    );
-  }
-}
+
+
+// class CustomerPage extends StatefulWidget {
+//   final String userId;
+
+//   CustomerPage({required this.userId});
+
+//   @override
+//   _CustomerPageState createState() => _CustomerPageState();
+// }
+
+// class _CustomerPageState extends State<CustomerPage> {
+//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+//   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
+
+ 
+
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//      var screenheight = MediaQuery.of(context).size.height;
+//     var screenwidth = MediaQuery.of(context).size.width;
+   
+//     return WillPopScope(
+//       onWillPop: () async {
+//         Navigator.pop(context);
+//        return false;
+        
+//       },
+//       child:
+//     Scaffold(
+//       backgroundColor: Colors.white,
+//       // appBar: AppBar(
+//       //   title: Text('Customer Seat Booking'),
+//       //   leading: GestureDetector(onTap:(){
+//       //     Navigator.push(context, MaterialPageRoute(builder: (context) => StatusOfBooking(userId: widget.userId)));
+           
+
+//       //   },
+//       //     child: Icon(Icons.book_rounded)),
+//       // ),
+      
+//       body: ListView(
+//         children: [
+//           SizedBox(height: screenheight*0.02,),
+//           Padding(padding: EdgeInsets.only(left: 16,right: 16),
+//             child: Container(
+//               height: screenheight*0.13,
+//               width: double.infinity,
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(25),
+//                 color: Color(0xFF681E1E),
+//               ),
+//               child: Align(alignment: Alignment.center,
+//                 child: Container(
+//                   child:Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),)
+//                 ),
+//               ),
+//             ),
+//           ),
+//           SizedBox(height: screenheight*0.04,),
+
+//           Padding(padding: EdgeInsets.only(left: 16,right: 16),
+//             child: Container(
+//               decoration: BoxDecoration(
+//                  color: const Color.fromARGB(255, 220, 154, 55),
+//                  borderRadius: BorderRadius.circular(20),
+//                  boxShadow: [
+//       BoxShadow(
+//         color: Colors.grey.withOpacity(0.5), // Shadow color
+//         spreadRadius: 5, // Spread radius
+//         blurRadius: 7, // Blur radius
+//         offset: Offset(0, 3), // Shadow offset (x, y)
+//       ),],
+//               ),
+//               height: screenheight*0.2,
+             
+//               child: Center(
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+                  
+//                   children: [
+                
+//                     Padding(padding: EdgeInsets.only(left: 16,right: 16),
+//                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                         children: [
+//                          Row(children:[ 
+//                          CircleAvatar(radius: 10,backgroundColor: Colors.grey,),
+//                          SizedBox(width: screenwidth*0.03,),
+//                          Text('Available',style: TextStyle(fontWeight: FontWeight.bold),)
+//                          ]),
+//                       Row(children:[ 
+//                         CircleAvatar(radius: 10,backgroundColor: Color.fromARGB(255, 229, 225, 10),),
+//                         SizedBox(width: screenwidth*0.03,),
+//                         Text('Requested',style: TextStyle(fontWeight: FontWeight.bold),)
+//                         ]),]),
+//                     ),
+                
+//                     SizedBox(height: screenheight*0.03,),
+                
+//                        Padding(padding: EdgeInsets.only(left: 16,right: 16),
+//                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                           children: [
+//                          Row(children:[ 
+//                          CircleAvatar(radius: 10,backgroundColor: Colors.blue,),
+//                          SizedBox(width: screenwidth*0.03,),
+//                          Text('Approved',style: TextStyle(fontWeight: FontWeight.bold),)
+//                          ]),
+//                                          Row(children:[ 
+//                                            CircleAvatar(radius: 10,backgroundColor: Colors.green,),
+//                                            SizedBox(width: screenwidth*0.03,),
+//                                            Text('Completed',style: TextStyle(fontWeight: FontWeight.bold),)
+//                                            ]),]),
+//                        ),
+//                        SizedBox(height: screenheight*0.03,),
+                          
+                          
+//                           Padding(padding: EdgeInsets.only(left: 40,right: 16),child: Align(alignment: Alignment.centerLeft,
+//                             child: Row(
+//                               children:[ 
+                              
+//                               CircleAvatar(radius: 10,backgroundColor: Colors.red,),
+//                               SizedBox(width: screenwidth*0.03,),
+//                               Text('Rejected',style: TextStyle(fontWeight: FontWeight.bold),),
+                              
+                              
+//                               ])),)
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ),
+//           SizedBox(height: screenheight*0.04,),
+//           _buildTimeslotSection("Morning","06:00 am - 09:59 am"),
+//           _buildTimeslotSection("Noon","10:00 am - 03:59 pm"),
+//           _buildTimeslotSection("Evening","04:00 pm - 06:59 pm"),
+//           _buildTimeslotSection("Night","7:00 pm - 09:00 pm"),
+//         ],
+//       ),
+//     ));
+//   }
+
+  
+
+//   // Function to build the UI for each timeslot section (Morning, Noon, etc.)
+//   Widget _buildTimeslotSection(String timeslot,timings) {
+//     var screenheight = MediaQuery.of(context).size.height;
+//   var screenwidth = MediaQuery.of(context).size.width;
+
+    
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//          Padding(
+//         padding: EdgeInsets.only(left: 16, right: 16),
+//         child: Container(
+          
+//           height: screenheight * 0.07,
+//           width: double.infinity,
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.start,
+//             children: [
+//               Container(
+//                 height: screenheight * 0.06,
+//                 width: screenwidth * 0.3,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(18),
+//                   color: const Color(0xFF681E1E),
+//                 ),
+//                 child: Align(
+//                   alignment: Alignment.centerLeft,
+//                   child: Text(
+//                     '    $timeslot',
+//                     style: TextStyle(
+//                       color: Colors.white,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(width: screenwidth * 0.05),
+              
+//               Container(
+//                 height: screenheight * 0.06,
+//                 width: screenwidth * 0.568,
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(18),
+//                   color: const Color(0xFF681E1E),
+//                 ),
+//                 child: Align(
+//                   alignment: Alignment.centerLeft,
+//                   child: Text(
+//                     '    $timings    ',
+//                     style: TextStyle(
+//                       color: Colors.white,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//       SizedBox(height: screenheight * 0.02),
+
+//         Padding(
+//   padding: EdgeInsets.only(left: 16, right: 16),
+//   child: StreamBuilder<DocumentSnapshot>(
+//     stream: _firestore.collection(currentDate).doc(timeslot).snapshots(),
+//     builder: (context, snapshot) {
+//       if (!snapshot.hasData || !snapshot.data!.exists) {
+//         return Center(child: CircularProgressIndicator());
+//       }
+
+//       var seatData = snapshot.data!['seats'] ?? [];
+      
+//       return Padding(padding: EdgeInsets.all(16),
+//         child: Container(
+//           height: MediaQuery.of(context).size.height * 0.33, // Fixed height
+//           decoration: BoxDecoration(
+//             color: const Color.fromARGB(255, 220, 154, 55),
+//              boxShadow: [
+//       BoxShadow(
+//         color: Colors.grey.withOpacity(0.5), // Shadow color
+//         spreadRadius: 5, // Spread radius
+//         blurRadius: 7, // Blur radius
+//         offset: Offset(0, 3), // Shadow offset (x, y)
+//       ),],
+//             //border: Border.all(color: Colors.grey), // Add a border for visual distinction
+//             borderRadius: BorderRadius.circular(15), // Rounded corners
+//             //color: Colors.white, // Optional background color
+//           ),
+//           child: SingleChildScrollView(
+//             child: GridView.builder(
+//               padding: EdgeInsets.all(10),
+              
+//               shrinkWrap: true,
+//               physics: NeverScrollableScrollPhysics(), // Disable GridView's internal scrolling
+//               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                 crossAxisCount: 5, // Number of columns
+//                 mainAxisSpacing: 16.0,
+//                 crossAxisSpacing: 16.0,
+//               ),
+//               itemCount: seatData.length,
+//               itemBuilder: (context, index) {
+//                 return GestureDetector(
+//                   onTap: seatData[index]["status"] == "Pending"
+//                       ? () => _showBookingDialog(index, seatData, timeslot)
+//                       : null, // Make it unclickable if already booked
+//                   child: Container(
+//                     alignment: Alignment.center,
+//                     decoration: BoxDecoration(
+//                       color: _getSeatColor(seatData[index]["status"]),
+//                       borderRadius: BorderRadius.circular(20), // Seat styling
+//                     ),
+//                     child: Text(
+//                       '${index + 1}',
+//                       style: TextStyle(
+//                         color: Colors.white,
+//                         fontSize: 16,
+//                       ),
+//                     ),
+//                   ),
+//                 );
+//               },
+//             ),
+//           ),
+//         ),
+//       );
+//     },
+//   ),
+// ),
+// SizedBox(height: screenheight*0.02,)
+
+//       ],
+//     );
+//   }
+
+//   // Show the booking dialog for customers to book a seat
+//   _showBookingDialog(int index, List seats, String timeOfDay) {
+//     TextEditingController nameController = TextEditingController();
+//     String randomNumber = _generateRandomNumber(); // Generate a random number
+//      String cr = currentDate; 
+
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           backgroundColor: const Color.fromARGB(255, 220, 154, 55),
+//           title: Text('Book Slot ${index + 1}',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold)),
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               TextField(
+//                 controller: nameController,
+//                 decoration: InputDecoration(labelText: 'Enter your name',labelStyle: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 139, 12, 12),fontWeight: FontWeight.bold)),
+//               ),
+//               SizedBox(height: 10),
+//               Text('Random Number: $randomNumber',style: TextStyle(fontSize: 13,color: const Color.fromARGB(255, 139, 12, 12),fontWeight: FontWeight.bold)),
+//             ],
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 setState(() {
+//                   seats[index] = {
+//                     "status": "Requested", // Change the status to Requested
+//                     "name": nameController.text,
+//                     "randomNumber": randomNumber, // Save the random number
+//                   };
+//                 });
+
+//                 // Save the booking in Firestore
+//                 _firestore.collection(currentDate).doc(timeOfDay).update({
+//                   'seats': seats,
+//                 });
+
+//                 Navigator.of(context).pop(); // Close the dialog
+
+               
+//                  Navigator.of(context).push(MaterialPageRoute(
+//                 builder: (context) => RandomNumberPage(
+//                   name: nameController.text,
+//                   randomNumber: randomNumber,
+//                   date: currentDate,
+//                   adminNumber: "9999999999",
+//                 ),
+//               ));
+//                 FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
+//     'initial_random_number': randomNumber,
+//     'date':cr,
+//   });
+
+//   //               FirebaseFirestore.instance.collection('users_history').doc(widget.userId).set({
+    
+//   //   '1':cr,
+//   // });
+
+//    final docRef = FirebaseFirestore.instance.collection('users_history').doc(widget.userId);
+
+//                docRef.get().then((docSnapshot) async {
+//                 if (docSnapshot.exists) {
+//                   // Document exists, find the next field name
+//                   Map<String, dynamic>? data = docSnapshot.data();
+
+//                   if (data != null) {
+//                     int nextIndex = data.keys.map((key) => int.tryParse(key) ?? 0).fold(0, (a, b) => a > b ? a : b) + 1;
+
+//                     // Add the new date field
+//                     await docRef.update({'$nextIndex': cr});
+//                   }
+//                 } else {
+//                   // Document does not exist, create it with the first field
+//                   await docRef.set({'1': cr});
+//                 }
+//               });
+
+//               },
+//               child: Text('Book Seat',style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold)),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+
+ 
+
+//   // Generate a random number for the customer
+//   String _generateRandomNumber() {
+//     var rng = Random();
+//     return (rng.nextInt(10000) + 1000).toString(); // Generate a 4-digit random number
+//   }
+
+//   // Get the color of the seat based on its status
+//   Color _getSeatColor(String status) {
+//     switch (status) {
+//       case 'Requested':
+//         return const Color.fromARGB(255, 229, 225, 10);
+//       case 'Approved':
+//         return Colors.blue;
+//       case 'Removed':
+//         return Colors.red;
+//       case 'Completed':
+//         return Colors.green; // Completed status color
+//       default:
+//         return Colors.grey; // Pending status
+//     }
+//   }
+// }
 
 
 

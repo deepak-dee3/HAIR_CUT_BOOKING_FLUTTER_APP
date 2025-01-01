@@ -467,7 +467,8 @@ class UserDashboard extends StatelessWidget {
       },
       child:
     Scaffold(
-      backgroundColor: Colors.white,
+     //backgroundColor: Color(0xFFF5F5F5),
+     backgroundColor: Color(0xFFF0F0F0),
       
 
       body:Container(
@@ -476,23 +477,25 @@ class UserDashboard extends StatelessWidget {
 
          
           Container(
-        height: screenheight * 0.33, // Ensure the container has a fixed height
-        width: double.infinity, // Make the container take the full width
-        decoration: const BoxDecoration(
+            padding: EdgeInsets.all(10),
+                  height: screenheight * 0.33, // Ensure the container has a fixed height
+                  width: double.infinity, // Make the container take the full width
+                  decoration: const BoxDecoration(
           color: Color(0xFF681E1E), // Dark Red
+          //color: Colors.white,
           borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(40),
-            bottomRight: Radius.circular(40),
+            bottomLeft: Radius.circular(10),
+            bottomRight: Radius.circular(100),
           ),
-        ),
-        child: Padding(padding: EdgeInsets.only(left: 15,top:80),
+                  ),
+                  child: Padding(padding: EdgeInsets.only(left: 15,top:80),
           child: Column(
            // mainAxisAlignment: MainAxisAlignment.start,
             children:[
-      
-       Align(
-        alignment: Alignment.topLeft,
-         child: Text(
+                
+                 Align(
+                  alignment: Alignment.topLeft,
+                   child: Text(
                  "Book Your Cut", // Replace this with your desired text
                  style: TextStyle(
           color: Colors.white, // Set text color to white to stand out against the red background
@@ -500,43 +503,52 @@ class UserDashboard extends StatelessWidget {
           fontWeight: FontWeight.bold, // Bold font for emphasis
                  ),
                ),
-       ),
-       SizedBox(height: screenheight*0.01,),
+                 ),
+                 SizedBox(height: screenheight*0.01,),
              Align(
-      alignment: Alignment.centerLeft,
-       child: Text(
-        'Look Out Best !!!', // Replace this with your desired text
-        style: TextStyle(
-         color: Color.fromARGB(255, 220, 154, 55), // Set text color to white to stand out against the red background
+                alignment: Alignment.centerLeft,
+                 child: Text(
+                  'Look Out Best !!!', // Replace this with your desired text
+                  style: TextStyle(
+                   color: Color.fromARGB(255, 220, 154, 55), // Set text color to white to stand out against the red background
           fontSize: 18, // Adjust the font size as needed
           fontWeight: FontWeight.bold, // Bold font for emphasis
           
-        ),
+                  ),
              ),
              ),
              SizedBox(height: screenheight*0.01,),
-      Align(
-      alignment: Alignment.centerLeft,
-       child: Row(children:[ Icon(Icons.sentiment_very_satisfied_outlined,size: 30,color: Color.fromARGB(255, 220, 154, 55),)
-       ,
-      //  Text('-------------------',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),
-      //   fontSize: 17, // Adjust the font size as neede
-      //     fontWeight: FontWeight.bold, ),)
-       ])
+                Align(
+                alignment: Alignment.centerLeft,
+                 child: Row(children:[ Icon(Icons.sentiment_very_satisfied_outlined,size: 30,color: Color.fromARGB(255, 220, 154, 55),)
+                 ,
+                //  Text('-------------------',style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),
+                //   fontSize: 17, // Adjust the font size as neede
+                //     fontWeight: FontWeight.bold, ),)
+                 ])
              ),
-        ]),
-        ),
-      )
+                  ]),
+                  ),
+                )
       ,
       SizedBox(height: screenheight*0.03,),
       
          
            Container(
             height: screenheight * 0.26,
+           // width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             decoration: BoxDecoration(
-              color: Colors.white,
+              //color: Colors.white,
               borderRadius: BorderRadius.circular(60),
+               boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2), // Black color with opacity for softer shadow
+        offset: Offset(0, 4), // Horizontal and vertical displacement of the shadow
+        blurRadius: 6, // Blur radius to make the shadow softer
+        spreadRadius: 1, // How much the shadow should spread
+      ),
+    ],
             ),
             child: Column(
               children: [
@@ -544,7 +556,7 @@ class UserDashboard extends StatelessWidget {
                 Container(
                   height: screenheight * 0.25,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(5),
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: _images.length,
@@ -564,25 +576,7 @@ class UserDashboard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Dots indicator
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: List.generate(
-                //     _images.length,
-                //     (index) => AnimatedContainer(
-                //       duration: Duration(milliseconds: 300),
-                //       margin: EdgeInsets.symmetric(horizontal: 5),
-                //       height: 8,
-                //       width: _currentIndex == index ? 20 : 8,
-                //       decoration: BoxDecoration(
-                //         color: _currentIndex == index
-                //             ? Color(0xFF681E1E)
-                //             : Colors.grey,
-                //         borderRadius: BorderRadius.circular(4),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+         
               ],
             ),
           ),
@@ -594,7 +588,16 @@ class UserDashboard extends StatelessWidget {
             margin: EdgeInsets.symmetric(horizontal: 30),
             decoration: BoxDecoration(
               color: const Color(0xFFFFD3C6),
-              borderRadius: BorderRadius.circular(20),
+             //color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+               boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2), // Black color with opacity for softer shadow
+        offset: Offset(0, 4), // Horizontal and vertical displacement of the shadow
+        blurRadius: 6, // Blur radius to make the shadow softer
+        spreadRadius: 1, // How much the shadow should spread
+      ),
+    ],
             ),
             height: screenheight * 0.17,
             child: FutureBuilder<Map<String, String>>(
@@ -669,70 +672,7 @@ class UserDashboard extends StatelessWidget {
             ),
           ),
       
-          // Navigation buttons
-          //SizedBox(height: screenheight * 0.005), // Space between sections
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //   children: [
-          //     GestureDetector(
-          //       onTap: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => CustomerPage(userId: userId),
-          //           ),
-          //         );
-          //       },
-          //       child: Container(
-          //         height: screenheight * 0.18,
-          //         width: screenwidth * 0.4,
-          //         decoration: BoxDecoration(
-          //           color: Color(0xFF681E1E),
-          //           borderRadius: BorderRadius.circular(20),
-          //         ),
-          //         child: Center(
-          //           child: Text(
-          //             'Start  Booking',
-          //             style: TextStyle(
-          //               color: Color.fromARGB(255, 220, 154, 55),
-          //               fontWeight: FontWeight.bold,
-          //               fontSize: 16,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         print('hello');
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => StatusOfBooking(userId: userId),
-          //           ),
-          //         );
-          //       },
-          //       child: Container(
-          //         height: screenheight * 0.18,
-          //         width: screenwidth * 0.4,
-          //         decoration: BoxDecoration(
-          //           color: Color(0xFF681E1E),
-          //           borderRadius: BorderRadius.circular(20),
-          //         ),
-          //         child: Center(
-          //           child: Text(
-          //             'Watch  Status',
-          //             style: TextStyle(
-          //               color: Color.fromARGB(255, 220, 154, 55),
-          //               fontWeight: FontWeight.bold,
-          //               fontSize: 16,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
+         
       
           SizedBox(height: screenheight*0.05,),
       
@@ -740,7 +680,16 @@ class UserDashboard extends StatelessWidget {
             child: Container(
               height: screenheight*0.08,
               width: double.infinity,
-              decoration: BoxDecoration(color: Color(0xFF681E1E),borderRadius: BorderRadius.circular(40)),
+              decoration: BoxDecoration(
+                 boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2), // Black color with opacity for softer shadow
+        offset: Offset(0, 4), // Horizontal and vertical displacement of the shadow
+        blurRadius: 6, // Blur radius to make the shadow softer
+        spreadRadius: 2, // How much the shadow should spread
+      ),
+    ],
+                color: Color(0xFF681E1E),borderRadius: BorderRadius.circular(5)),
               child: Column(
                 children: [
                   SizedBox(height: screenheight*0.02,),
@@ -754,12 +703,7 @@ class UserDashboard extends StatelessWidget {
                       GestureDetector(
                         onTap: (){
                   
-                      //      Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => CustomerPage(userId: userId),
-                      //   ),
-                      // );
+                     
 
                     Navigator.push(
   context,

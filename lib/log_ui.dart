@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hair/MAIN%20PAGE/admin_dup.dart';
 import 'package:hair/admin_off_page.dart';
 import 'package:hair/forget_password.dart';
+import 'package:hair/initial_page.dart';
 import 'package:hair/main.dart';
 import 'package:hair/signup_login.dart';
 import 'package:page_transition/page_transition.dart';

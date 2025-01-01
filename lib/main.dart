@@ -2,7 +2,9 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hair/approved_admin_page.dart';
 import 'package:hair/forget_password.dart';
+import 'package:hair/initial_page.dart';
 import 'package:hair/log_ui.dart';
 import 'dart:math';
 import 'package:hair/login.dart';
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget{
     var screenwidth = MediaQuery.of(context).size.width;
     return MaterialApp(
        debugShowCheckedModeBanner: false,
-      home:AnimatedSplashScreen(nextScreen: LogInUpPage() ,
+      home:AnimatedSplashScreen(nextScreen: InitialPage(),
       splash:Center(child:Container(height: screenheight*0.5,width: double.infinity,
         child:Column(
         children: [
@@ -49,16 +51,6 @@ class MyApp extends StatelessWidget{
 
 }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: LogInUpPage(),
-//     );
-//   }
-// }
-
 
 class AdminPage extends StatefulWidget {
   @override
@@ -70,6 +62,7 @@ class _AdminPageState extends State<AdminPage> {
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date
 
 bool isOn = false;
+int selectedSection = 0;
 
   @override
   void initState() {
@@ -116,19 +109,19 @@ bool isOn = false;
       },
       child:
      Scaffold(
-      backgroundColor: Colors.white,
-      //      appBar: AppBar(
-      //   title: Text('Admin Page'),
-      //   actions: [
-      //     Switch(
-      //       value: isOn,
-      //       onChanged: _toggleSwitch,
-      //     ),
-      //   ],
+      // appBar: AppBar(
+      //   backgroundColor: Color(0xFF681E1E),
+      //   toolbarHeight: 70,
+      //   lea
       // ),
+      backgroundColor: Colors.white,
+     
       body: ListView(
         children: [
           SizedBox(height: screenheight*0.02,),
+
+        
+          
           Padding(padding: EdgeInsets.only(left: 16,right: 16),
             child: Container(
               height: screenheight*0.13,
@@ -144,79 +137,198 @@ bool isOn = false;
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
-                      StreamBuilder<QuerySnapshot>(
-                      stream: _firestore.collection(currentDate).snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return Stack(
-                            children: [
-                              Icon(Icons.notifications, color: Colors.white),
-                              Positioned(
-                                right: 0,
-                                child: CircleAvatar(
-                                  radius: 8,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '0',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }
+                      
+//                       StreamBuilder<QuerySnapshot>(
+//                       stream: _firestore.collection(currentDate).snapshots(),
+//                       builder: (context, snapshot) {
+//                         if (!snapshot.hasData) {
+//                           return Stack(
+//                             children: [
+//                               Icon(Icons.notifications, color: Colors.white),
+//                               Positioned(
+//                                 right: 0,
+//                                 child: CircleAvatar(
+//                                   radius: 8,
+//                                   backgroundColor: Colors.red,
+//                                   child: Text(
+//                                     '0',
+//                                     style: TextStyle(
+//                                       color: Colors.white,
+//                                       fontSize: 10,
+//                                       fontWeight: FontWeight.bold,),),),),],);}
 
-                        num yellowSeatsCount = 0;
+//                         num yellowSeatsCount = 0;
 
-for (var doc in snapshot.data!.docs) {
-  var seatData = doc['seats'] ?? [];
-  yellowSeatsCount += seatData
-      .where((seat) => seat['status'] == 'Requested')
-      .length;
-}
+// for (var doc in snapshot.data!.docs) {
+//   var seatData = doc['seats'] ?? [];
+//   yellowSeatsCount += seatData
+//       .where((seat) => seat['status'] == 'Requested')
+//       .length;
+// }
 
 
-                        return Stack(
-                          children: [
-                            Icon(Icons.notifications, color: Colors.white),
-                            if (yellowSeatsCount > 0)
-                              Positioned(
-                                right: 0,
-                                child: CircleAvatar(
-                                  radius: 8,
-                                  backgroundColor: Colors.red,
-                                  child: Text(
-                                    '$yellowSeatsCount',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        );
-                      },
-                    ),
+//                         return Stack(
+//                           children: [
+//                             Icon(Icons.notifications, color: Colors.white),
+//                             if (yellowSeatsCount > 0)
+//                               Positioned(
+//                                 right: 0,
+//                                 child: CircleAvatar(
+//                                   radius: 8,
+//                                   backgroundColor: Colors.red,
+//                                   child: Text(
+//                                     '$yellowSeatsCount',
+//                                     style: TextStyle(
+//                                       color: Colors.white,
+//                                       fontSize: 10,
+//                                       fontWeight: FontWeight.bold,
+//                                     ),
+//                                   ),
+//                                 ),
+//                               ),
+//                           ],
+//                         );
+//                       },
+//                     ),
 
-                      Switch(
-                        
-                        inactiveThumbColor: Color(0xFF681E1E),
-                        inactiveTrackColor: Colors.white,
-                        activeColor: const Color.fromARGB(255, 220, 154, 55),
-            value: isOn,
-            onChanged: _toggleSwitch,
-          ),
+          
 
                     ],
                   )
                 ),
               ),
+            ),
+          ),
+          SizedBox(height: screenheight*0.04,),
+            Padding(
+            padding: const EdgeInsets.only(left: 25,right: 25),
+            child: Container(
+              height: screenheight*0.09,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5), // Shadow color
+        spreadRadius: 5, // Spread radius
+        blurRadius: 7, // Blur radius
+        offset: Offset(0, 3), // Shadow offset (x, y)
+      ),
+    ],
+              ),
+            
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: screenheight*0.07,
+                    width:  screenheight*0.07,
+                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                color: Colors.grey.withOpacity(0.2)
+              ),
+                    child:  Transform.scale(
+                      scale: 0.8,
+                      child: Switch(
+                          
+                          inactiveThumbColor: Color(0xFF681E1E),
+                          inactiveTrackColor: Colors.white,
+                          activeColor: const Color.fromARGB(255, 220, 154, 55),
+                                  value: isOn,
+                                  onChanged: _toggleSwitch,
+                                ),
+                    ),
+                  ),
+                   Container(
+                    height: screenheight*0.07,
+                    width:  screenheight*0.07,
+                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                color: Colors.grey.withOpacity(0.2)
+              ),
+                    child: Icon(Icons.notification_add),
+                  ),
+                   GestureDetector(
+                    onTap: ()
+                        {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ApprovedSeatsPage(currentDate: currentDate)));
+                        },
+                     child: Container(
+                      height: screenheight*0.07,
+                      width:  screenheight*0.07,
+                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                                     color: Colors.grey.withOpacity(0.2)
+                                   ),
+                      child: Icon(Icons.approval,color: Color.fromARGB(255, 220, 154, 55),size: 28,),
+                                       ),
+                   ),
+                   Container(
+                    height: screenheight*0.07,
+                    width:  screenheight*0.07,
+                     decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                color: Colors.grey.withOpacity(0.2)
+              ),
+                    child:  Center(
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: _firestore.collection(currentDate).snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return Stack(
+                              children: [
+                                Icon(Icons.notifications, size: 28,color:  Color.fromARGB(255, 220, 154, 55)),
+                                Positioned(
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: Colors.red,
+                                    child: Text(
+                                      '0',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,),),),),],);}
+                      
+                          num yellowSeatsCount = 0;
+                      
+                      for (var doc in snapshot.data!.docs) {
+                        var seatData = doc['seats'] ?? [];
+                        yellowSeatsCount += seatData
+                            .where((seat) => seat['status'] == 'Requested')
+                            .length;
+                      }
+                      
+                      
+                          return Stack(
+                            children: [
+                              Icon(Icons.notifications, size: 28,color:  Color.fromARGB(255, 220, 154, 55)),
+                              if (yellowSeatsCount > 0)
+                                Positioned(
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: Colors.red,
+                                    child: Text(
+                                      '$yellowSeatsCount',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            
             ),
           ),
           SizedBox(height: screenheight*0.04,),
@@ -288,6 +400,9 @@ for (var doc in snapshot.data!.docs) {
           _buildTimeslotSection("Noon","(10:00 am - 03:59 pm)"),
           _buildTimeslotSection("Evening","(04:00 pm - 06:59 pm)"),
           _buildTimeslotSection("Night","(7:00 pm - 09:00 pm)"),
+
+
+
         ],
       ),
     ));
@@ -433,14 +548,17 @@ for (var doc in snapshot.data!.docs) {
         'randomNumber': '',
       },
     );
+    await deleteYesterdayCollection();
 
     await _firestore.collection(currentDate).doc(timeslot).set({
       'seats': seats,
     });
+
   }
 
   // Add 5 new seats to the timeslot in Firestore
   void _addNewSeats(String timeslot) async {
+     
     DocumentSnapshot snapshot = await _firestore
         .collection(currentDate)
         .doc(timeslot)
@@ -548,6 +666,30 @@ for (var doc in snapshot.data!.docs) {
     }
   }
 
+  Future<void> deleteYesterdayCollection() async {
+  // Get yesterday's date in the format 'yyyy-MM-dd'
+  String yesterday = DateTime.now().subtract(Duration(days: 1)).toIso8601String().split('T')[0];
+
+  // Reference to the collection based on yesterday's date
+  CollectionReference collection = FirebaseFirestore.instance.collection(yesterday);
+
+  // Get all documents in the collection
+  QuerySnapshot snapshot = await collection.get();
+
+  // Check if the collection has documents
+  if (snapshot.docs.isNotEmpty) {
+    // Iterate through the documents and delete them
+    for (DocumentSnapshot doc in snapshot.docs) {
+      await doc.reference.delete();
+    }
+    print("Yesterday's collection has been deleted.");
+  } else {
+    print("No documents found in yesterday's collection.");
+  }
+}
+
+
+
   // Get the color of the seat based on its status
   Color _getSeatColor(String status) {
     switch (status) {
@@ -564,6 +706,9 @@ for (var doc in snapshot.data!.docs) {
     }
   }
 }
+
+
+
 
 ////////////////////////////////////////////////////////////////////////inp///////////////////////////////
 
@@ -635,7 +780,14 @@ class _CustomerPageState extends State<CustomerPage> {
             child: Container(
               decoration: BoxDecoration(
                  color: const Color.fromARGB(255, 220, 154, 55),
-                 borderRadius: BorderRadius.circular(20)
+                 borderRadius: BorderRadius.circular(20),
+                 boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5), // Shadow color
+        spreadRadius: 5, // Spread radius
+        blurRadius: 7, // Blur radius
+        offset: Offset(0, 3), // Shadow offset (x, y)
+      ),],
               ),
               height: screenheight*0.2,
              
@@ -782,6 +934,13 @@ class _CustomerPageState extends State<CustomerPage> {
           height: MediaQuery.of(context).size.height * 0.33, // Fixed height
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 220, 154, 55),
+             boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5), // Shadow color
+        spreadRadius: 5, // Spread radius
+        blurRadius: 7, // Blur radius
+        offset: Offset(0, 3), // Shadow offset (x, y)
+      ),],
             //border: Border.all(color: Colors.grey), // Add a border for visual distinction
             borderRadius: BorderRadius.circular(15), // Rounded corners
             //color: Colors.white, // Optional background color

@@ -66,7 +66,7 @@ Scaffold(
             Icon(
                       Icons.warning,
                       size: 60,
-                      color: Colors.white,
+                      color:  Color.fromARGB(255, 220, 154, 55),
                     ),
             SizedBox(height: 10),
             Padding(padding: EdgeInsets.all(10),
@@ -74,7 +74,7 @@ Scaffold(
                 "The salon is temporarily unavailable. Please try again later — we're here to serve you!",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white70,
+                  color:  Color.fromARGB(255, 220, 154, 55),
                   fontSize: 16,
                 ),
               ),

@@ -144,6 +144,66 @@ bool isOn = false;
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
+                      StreamBuilder<QuerySnapshot>(
+                      stream: _firestore.collection(currentDate).snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Stack(
+                            children: [
+                              Icon(Icons.notifications, color: Colors.white),
+                              Positioned(
+                                right: 0,
+                                child: CircleAvatar(
+                                  radius: 8,
+                                  backgroundColor: Colors.red,
+                                  child: Text(
+                                    '0',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+
+                        num yellowSeatsCount = 0;
+
+for (var doc in snapshot.data!.docs) {
+  var seatData = doc['seats'] ?? [];
+  yellowSeatsCount += seatData
+      .where((seat) => seat['status'] == 'Requested')
+      .length;
+}
+
+
+                        return Stack(
+                          children: [
+                            Icon(Icons.notifications, color: Colors.white),
+                            if (yellowSeatsCount > 0)
+                              Positioned(
+                                right: 0,
+                                child: CircleAvatar(
+                                  radius: 8,
+                                  backgroundColor: Colors.red,
+                                  child: Text(
+                                    '$yellowSeatsCount',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+
                       Switch(
                         
                         inactiveThumbColor: Color(0xFF681E1E),

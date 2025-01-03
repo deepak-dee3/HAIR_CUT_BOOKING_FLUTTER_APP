@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hair/main.dart';
+import 'package:hair/signup_login.dart';
 
 class RandomNumberPage extends StatefulWidget{
 
@@ -98,7 +99,11 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
         SizedBox(height: screenheight*0.3,),
 
        GestureDetector(
-        onTap:(){},
+        onTap:(){
+
+           Navigator.pop(context);
+       
+        },
         child:Padding(padding:EdgeInsets.symmetric(horizontal: 13),child:Container(
           
           height: screenheight*0.15,

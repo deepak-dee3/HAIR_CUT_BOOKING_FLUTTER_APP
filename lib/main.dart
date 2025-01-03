@@ -110,11 +110,7 @@ int selectedSection = 0;
       },
       child:
      Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Color(0xFF681E1E),
-      //   toolbarHeight: 70,
-      //   lea
-      // ),
+      
       backgroundColor: Colors.white,
      
       body: ListView(
@@ -181,7 +177,8 @@ int selectedSection = 0;
                       scale: 0.8,
                       child: Switch(
                           
-                          inactiveThumbColor: Color(0xFF681E1E),
+                          inactiveThumbColor: const Color.fromARGB(255, 220, 154, 55),
+                          
                           inactiveTrackColor: Colors.white,
                           activeColor: const Color.fromARGB(255, 220, 154, 55),
                                   value: isOn,
@@ -529,6 +526,21 @@ int selectedSection = 0;
       await _firestore.collection(currentDate).doc(timeslot).update({
         'seats': seats,
       });
+
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Color(0xFF681E1E),
+         // margin: EdgeInsets.only(left: 20),
+          
+          content: Text('Seats updated successfully !!!',style: TextStyle(color: const Color.fromARGB(255, 220, 154, 55),fontWeight: FontWeight.bold),),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    
+
+
+
     }
   }
 
@@ -900,6 +912,39 @@ Padding(
                         setState(() {
                           _selectedIndex = index;
                         });
+
+                        String timing;
+            switch (_timeslots[index]) {
+              case "Morning":
+                timing = "From 6:00 AM To 10:00 AM";
+                break;
+              case "Noon":
+                timing = "From 10:00 AM To 4:00 PM";
+                break;
+              case "Evening":
+                timing = "From 4:00 PM To 7:00 PM";
+                break;
+              case "Night":
+                timing = "From 7:00 PM To 10:00 PM";
+                break;
+              default:
+                timing = "Unknown";
+            }
+
+            // Show a Snackbar with the selected timeslot and timing
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Color(0xFF681E1E),
+                content: Text(
+                    '${_timeslots[index]} ($timing)'
+
+                    ,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                    
+                    ),
+                duration: Duration(seconds: 2),
+              ),
+            );
+
                       },
               
                       child:  Container(
@@ -1036,15 +1081,45 @@ Padding(
                   'seats': seats,
                 });
 
+                // RandomNumberPage(
+                //     name: nameController.text,
+                //     randomNumber: randomNumber,
+                //     date: currentDate,
+                //     adminNumber: "9999999999",
+                //   ),
+
                 Navigator.of(context).pop(); // Close the dialog
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => RandomNumberPage(
+
+
+                Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return RandomNumberPage(
                     name: nameController.text,
                     randomNumber: randomNumber,
                     date: currentDate,
                     adminNumber: "9999999999",
-                  ),
-                ));
+                  );
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const curve = Curves.easeIn; // or any other curve
+      var curveAnimation = CurvedAnimation(parent: animation, curve: curve);
+
+      return SlideTransition(position: animation.drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)), child: child);
+    },
+  ),
+);
+
+
+                // Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => RandomNumberPage(
+                //     name: nameController.text,
+                //     randomNumber: randomNumber,
+                //     date: currentDate,
+                //     adminNumber: "9999999999",
+                //   ),
+                // ));
               },
               child: Text('Book Seat', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             ),

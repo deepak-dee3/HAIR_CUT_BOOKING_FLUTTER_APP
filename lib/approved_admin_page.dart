@@ -10,7 +10,8 @@ class ApprovedSeatsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Approved Seats'),
+        centerTitle: true,
+        title: Text('Approved Seats',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
         backgroundColor: Color(0xFF681E1E),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -57,13 +58,19 @@ class ApprovedSeatsPage extends StatelessWidget {
                     contentPadding: EdgeInsets.all(15),
                     leading: Icon(Icons.check_circle, color: Colors.green),
                     title: Text(
-                      'Customer: ${seat['seatName']}',
+                     
+                      'Customer: ${seat['seatName']}'.toUpperCase(),
+                       maxLines: 1, 
+      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                       ),
                     ),
-                    subtitle: Text('Number: ${seat['seatNumber']}'),
+                    subtitle: Text('Number: ${seat['seatNumber']}'.toUpperCase(),
+                     maxLines: 1, 
+      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               );

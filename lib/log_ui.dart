@@ -68,6 +68,7 @@ class _SignInUpPageState extends State<SignInUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final AuthService _authService = AuthService();
+  final sign_formKey = GlobalKey<FormState>();
   
   @override
   Widget build(BuildContext context) {
@@ -118,130 +119,161 @@ class _SignInUpPageState extends State<SignInUpPage> {
                     ),
                   ],
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(height: screenheight*0.05,),
-                    // Sign In Header
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 40,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFD3C6), // Light Red/Pink
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Text(
-                        'SIGN IN',
-                        style: TextStyle(
-                          color: Color(0xFF681E1E), // Dark Red
-                          fontWeight: FontWeight.bold,
+                child: Form(
+                  key: sign_formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: screenheight*0.05,),
+                      // Sign In Header
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 40,
                         ),
-                      ),
-                    ),
-                     SizedBox(height:  screenheight*0.053),
-
-                    // Email Field
-                    TextField(
-                      controller: _emailController,
-                      decoration: InputDecoration(
-                        hintText: 'Email',
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        suffixIcon: const Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                     SizedBox(height: screenheight*0.03,),
-
-                    // Password Field
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        suffixIcon: const Icon(Icons.lock_outline,shadows: [
-                          Shadow(
-                            color: Color(0xFF681E1E),
-                            //blurRadius: 3,
-                            
-                          )
-                        ],),
-                       
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                     SizedBox(height: screenheight*0.03,),
-
-                    // Password Field
-                    TextField(
-                      controller: _nameController,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Name',
-                        filled: true,
-                        fillColor: Colors.grey[200],
-                        suffixIcon: const Icon(Icons.password,shadows: [
-                          Shadow(
-                            color: Color(0xFF681E1E),
-                            //blurRadius: 3,
-                            
-                          )
-                        ],),
-                       
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    
-                     SizedBox(height: screenheight*0.053,),
-
-                    // Log In Button
-                    GestureDetector(
-                      onTap: () async {
-                User? user = await _authService.signUpWithEmailPassword(
-                  _emailController.text,
-                  _passwordController.text,
-                  _nameController.text,
-                );
-                if (user != null) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserDashboard(userId: user.uid)),
-                  );
-                }
-              },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF681E1E), // Dark Red
+                          color: const Color(0xFFFFD3C6), // Light Red/Pink
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Center(
-                          child: Text(
-                            'ENTER',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        child: const Text(
+                          'SIGN IN',
+                          style: TextStyle(
+                            color: Color(0xFF681E1E), // Dark Red
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                       SizedBox(height:  screenheight*0.053),
+                  
+                      // Email Field
+                      TextFormField(
+                        validator: (value) {
+                  // Email validation logic
+                  if (value == null || value.isEmpty) {
+                    return 'Email is required.';
+                  } else if (!RegExp(
+                          r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,3}$')
+                      .hasMatch(value)) {
+                    return 'Enter a valid email address.';
+                  }
+                  return null; // Valid email
+                },
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          suffixIcon: const Icon(Icons.email_outlined),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                       SizedBox(height: screenheight*0.03,),
+                  
+                      // Password Field
+                      TextFormField(
+                         validator: (value) {
+                  // Password validation logic
+                  final passwordRegex =
+                      r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$';
+
+                  if (value == null || value.isEmpty) {
+                    return 'Password is required.';
+                  } else if (!RegExp(passwordRegex).hasMatch(value)) {
+                    return 'Password must include:\n'
+                        '- At least 8 characters\n'
+                        '- One uppercase letter\n'
+                        '- One number\n'
+                        '- One special character';
+                  }
+                  return null; // Valid password
+                },
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'Password',
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          suffixIcon: const Icon(Icons.lock_outline,shadows: [
+                            Shadow(
+                              color: Color(0xFF681E1E),
+                              //blurRadius: 3,
+                              
+                            )
+                          ],),
+                         
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                       SizedBox(height: screenheight*0.03,),
+                  
+                      // Password Field
+                      TextFormField(
+                        controller: _nameController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: 'Name',
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                          suffixIcon: const Icon(Icons.password,shadows: [
+                            Shadow(
+                              color: Color(0xFF681E1E),
+                              //blurRadius: 3,
+                              
+                            )
+                          ],),
+                         
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      
+                       SizedBox(height: screenheight*0.053,),
+                  
+                      // Log In Button
+                      GestureDetector(
+
+                        onTap: () async {
+                  User? user = await _authService.signUpWithEmailPassword(
+                    _emailController.text,
+                    _passwordController.text,
+                    _nameController.text,
+                  );
+                  if (user != null) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => UserDashboard(userId: user.uid)),
+                    );
+                  }
+                                },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF681E1E), // Dark Red
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'ENTER',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    
-                     SizedBox(height: screenheight*0.05,),
-                  ],
+                      
+                       SizedBox(height: screenheight*0.05,),
+                    ],
+                  ),
                 ),
               ),
               
@@ -587,6 +619,7 @@ class _LogInUpPageState extends State<LogInUpPage> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _formKey = GlobalKey<FormState>();
 
   // Fetch salon availability status from Firestore
   Future<bool> _getSalonAvailability() async {
@@ -660,117 +693,163 @@ class _LogInUpPageState extends State<LogInUpPage> {
                       ),
                     ],
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: screenheight * 0.05),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFFD3C6),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Text(
-                          'LOG IN',
-                          style: TextStyle(
-                            color: Color(0xFF681E1E),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: screenheight * 0.053),
-                      TextField(
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          suffixIcon: const Icon(Icons.email_outlined),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        SizedBox(height: screenheight * 0.05),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFD3C6),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: screenheight * 0.03),
-                      TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          suffixIcon: const Icon(Icons.lock_outline),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10),
+                          child: const Text(
+                            'LOG IN',
+                            style: TextStyle(
+                              color: Color(0xFF681E1E),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: screenheight * 0.053),
-                      GestureDetector(
-                        onTap: () async {
-                          // Check if admin login credentials are correct
-                          if (_emailController.text.trim() == 'admin@gmail.com' &&
-                              _passwordController.text.trim() == 'Admin@11') {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AdminPage(),
-                              ),
-                            );
-                          } else {
-                            // User login with email and password
-                            User? user = await _authService.signInWithEmailPassword(
-                              _emailController.text.trim(),
-                              _passwordController.text.trim(),
-                            );
-                            if (user != null) {
-                              // Check if the salon is available
-                              bool isSalonOpen = await _getSalonAvailability();
-                              if (isSalonOpen) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => UserDashboard(userId: user.uid),
-                                  ),
-                                );
-                              } else {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>admin_off_page(),
+                        SizedBox(height: screenheight * 0.053),
+                        TextFormField(
+                           validator: (value) {
+                    // Email validation logic
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required.';
+                    } else if (!RegExp(
+                            r'^[a-zA-Z0-9]+@[a-zA-Z]+\.[a-zA-Z]{2,3}$')
+                        .hasMatch(value)) {
+                      return 'Enter a valid email address.';
+                    }
+                    return null; // Valid email
+                                    },
+                          enableSuggestions: true,
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            hintText: 'Email',
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            suffixIcon: const Icon(Icons.email_outlined),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenheight * 0.03),
+                        TextFormField(
+                          validator: (value) {
+                    // Password validation logic
+                    final passwordRegex =
+                        r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$';
+                    
+                    if (value == null || value.isEmpty) {
+                      return 'Password is required.';
+                    } else if (!RegExp(passwordRegex).hasMatch(value)) {
+                      // return 'Password must include:\n'
+                      //     '- At least 8 characters\n'
+                      //     '- One uppercase letter\n'
+                      //     '- One number\n'
+                      //     '- One special character';
+                      return 'Include special char,Number,uppercase';
+                    }
+                    return null; 
+                                    },
+                    
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            suffixIcon: const Icon(Icons.lock_outline),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: screenheight * 0.053),
+                        GestureDetector(
+                          onTap: () async {
+                            // Check if admin login credentials are correct
+                            if (_emailController.text.trim() == 'admin@gmail.com' &&
+                                _passwordController.text.trim() == 'Admin@11') {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AdminPage(),
+                                ),
+                              );
+                            } else {
+
+
+                  //             if (_formKey.currentState!.validate()) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(content: Text("Email is valid!")),
+                  //   );
+                  // }
+
+
+
+
+                              // User login with email and password
+                              User? user = await _authService.signInWithEmailPassword(
+                                _emailController.text.trim(),
+                                _passwordController.text.trim(),
+                              );
+                              if (user != null) {
+                                // Check if the salon is available
+                                bool isSalonOpen = await _getSalonAvailability();
+                                if (isSalonOpen) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => UserDashboard(userId: user.uid),
+                                    ),
+                                  );
+                                } else {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>admin_off_page(),
+                                    ),
+                                  );
+                                }
+                              } 
+                              else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                     backgroundColor: Color(0xFF681E1E),
+                                    content: Text('Invalid email or password',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
                                   ),
                                 );
                               }
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Invalid email or password'),
-                                ),
-                              );
                             }
-                          }
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 20),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF681E1E),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'ENTER',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF681E1E),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                'ENTER',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: screenheight * 0.05),
-                    ],
+                        SizedBox(height: screenheight * 0.05),
+                      ],
+                    ),
                   ),
                 ),
               ),

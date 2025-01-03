@@ -456,9 +456,11 @@ class UserDashboard extends StatelessWidget {
     var screenheight = MediaQuery.of(context).size.height;
     var screenwidth = MediaQuery.of(context).size.width;
     _startAutoSwipe(context);
+    
 
 
     return WillPopScope(
+      
       onWillPop: () async {
         //Navigator.pop(context);
        // return true;
@@ -467,6 +469,7 @@ class UserDashboard extends StatelessWidget {
       },
       child:
     Scaffold(
+     // resizeToAvoidBottomInset: true,
      //backgroundColor: Color(0xFFF5F5F5),
      backgroundColor: Color(0xFFF0F0F0),
       
@@ -628,6 +631,8 @@ class UserDashboard extends StatelessWidget {
                           children: [
                             Text(
                               'Your Name :  ',
+                               maxLines: 1, 
+      overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Color(0xFF681E1E),
@@ -654,11 +659,13 @@ class UserDashboard extends StatelessWidget {
                                 color: Color(0xFF681E1E),
                               ),
                             ),
-                            Text(
-                              '${snapshot.data!['email']}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                               style: TextStyle(fontWeight: FontWeight.bold,),
+                            Flexible(
+                              child: Text(
+                                '${snapshot.data!['email']}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                 style: TextStyle(fontWeight: FontWeight.bold,),
+                              ),
                             ),
                           ],
                         ),
@@ -722,17 +729,70 @@ class UserDashboard extends StatelessWidget {
 
                   
                         },
+
+                        //return StatusOfBooking(userId: userId);
                         child: Icon(Icons.chair_outlined,color:  Color.fromARGB(255, 220, 154, 55),)),
                   
                       GestureDetector(
                         onTap: (){
-                      //      Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => StatusOfBooking(userId: userId),
-                      //   ),
-                      // );
-                       Navigator.push(
+                     
+ Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return StatusOfBooking(userId: userId);
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const curve = Curves.easeIn; // or any other curve
+      var curveAnimation = CurvedAnimation(parent: animation, curve: curve);
+
+      return SlideTransition(position: animation.drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)), child: child);
+    },
+  ),
+);
+                        },
+                        child: Icon(Icons.history_edu_outlined,color:  Color.fromARGB(255, 220, 154, 55),size: 25,))
+                    ],
+                  ),
+      
+                 
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(width: screenwidth*0.13,),
+                      
+                      GestureDetector(
+                        onTap:(){
+
+                        },
+                        child: Text('Home',style: TextStyle(fontSize: 10,color: Color.fromARGB(255, 220, 154, 55),fontWeight: FontWeight.bold),)),   
+                      SizedBox(width: screenwidth*0.21,),
+                       GestureDetector(
+                        onTap:(){
+
+                          Navigator.push(
+  context,
+  PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return CustomerPage(userId: userId);
+    },
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const curve = Curves.easeIn; // or any other curve
+      var curveAnimation = CurvedAnimation(parent: animation, curve: curve);
+
+      return SlideTransition(position: animation.drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)), child: child);
+    },
+  ),
+);
+
+                        },
+                        child: Text('Booking',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10,color: Color.fromARGB(255, 220, 154, 55),),)),   
+                        SizedBox(width: screenwidth*0.18,),
+                        GestureDetector(
+                          onTap:(){
+
+
+                            Navigator.push(
   context,
   PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) {
@@ -750,22 +810,9 @@ class UserDashboard extends StatelessWidget {
   ),
 );
 
-                        },
-                        child: Icon(Icons.history_edu_outlined,color:  Color.fromARGB(255, 220, 154, 55),size: 25,))
-                    ],
-                  ),
-      
-                 
-                    Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(width: screenwidth*0.13,),
-                      
-                      Text('Home',style: TextStyle(fontSize: 10,color: Color.fromARGB(255, 220, 154, 55),fontWeight: FontWeight.bold),),   
-                      SizedBox(width: screenwidth*0.21,),
-                       Text('Booking',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10,color: Color.fromARGB(255, 220, 154, 55),),),   
-                        SizedBox(width: screenwidth*0.18,),
-                        Text('History',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10,color: Color.fromARGB(255, 220, 154, 55)),),                    
+
+                          },
+                          child: Text('History',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10,color: Color.fromARGB(255, 220, 154, 55)),)),                    
                                        
                      
                     ],

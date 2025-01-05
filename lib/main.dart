@@ -186,15 +186,34 @@ int selectedSection = 0;
                                 ),
                     ),
                   ),
-                   Container(
-                    height: screenheight*0.07,
-                    width:  screenheight*0.07,
-                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                color: Colors.grey.withOpacity(0.2)
-              ),
-                    child: Icon(Icons.notification_add),
-                  ),
+              //      Container(
+              //       height: screenheight*0.07,
+              //       width:  screenheight*0.07,
+              //        decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(20),
+              //   color: Colors.grey.withOpacity(0.2)
+              // ),
+              //       child: Icon(Icons.notification_add),
+              //     ),
+              Container(
+      height: screenheight * 0.07,
+      width: screenheight * 0.07,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.grey.withOpacity(0.2),
+      ),
+      child: Center(
+        child: Text(
+          isOn ? "ON" : "OFF",
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: isOn ? Color(0xFF681E1E) : const Color.fromARGB(255, 220, 154, 55),
+          ),
+        ),
+      ),
+    ),
+
                    GestureDetector(
                     onTap: ()
                         {

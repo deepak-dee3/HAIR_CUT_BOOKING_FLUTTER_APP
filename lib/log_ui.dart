@@ -588,7 +588,7 @@ class _LogInUpPageState extends State<LogInUpPage> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async{
                   Navigator.push(
                     context,
                     PageTransition(

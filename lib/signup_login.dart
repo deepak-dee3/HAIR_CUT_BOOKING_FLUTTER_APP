@@ -25,9 +25,9 @@ class UserDashboard extends StatelessWidget {
    int _currentIndex = 0;
 
   final List<String> _images = [
-    'assets/hair1.jpeg', // Replace with your image paths
-    'assets/hair2.jpeg', // Replace with your image paths
-    'assets/hair3.jpeg', // Replace with your image paths
+    'assets/hair1.jpeg', 
+    'assets/hair2.jpeg', 
+    'assets/hair3.jpeg', 
     'assets/hair4.jpeg', // Replace with your image paths
   ];
   final PageController _pageController = PageController();
@@ -88,7 +88,7 @@ class UserDashboard extends StatelessWidget {
     Scaffold(
      // resizeToAvoidBottomInset: true,
      //backgroundColor: Color(0xFFF5F5F5),
-     backgroundColor: Color(0xFFF0F0F0),
+    // backgroundColor: Color(0xFFF0F0F0),
       
 
       body:Container(

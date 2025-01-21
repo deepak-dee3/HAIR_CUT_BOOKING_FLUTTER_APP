@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hair/main.dart';
 import 'package:hair/signup_login.dart';
+import 'dart:async';
 
 class RandomNumberPage extends StatefulWidget{
 
@@ -23,6 +24,7 @@ class RandomNumberPage extends StatefulWidget{
 }
 
 class _RandomNumberPageState extends State<RandomNumberPage> {
+  bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     var screenwidth = MediaQuery.of(context).size.height;
@@ -97,6 +99,38 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
                ),
         ),
         SizedBox(height: screenheight*0.3,),
+    //            GestureDetector(
+    //     onTap:(){
+    // //       setState(() {
+    // //         isExpanded = !isExpanded;
+    // //       });
+    // //        Timer(Duration(seconds: 2), () {
+    // //   setState(() {
+    // //     isExpanded = false;
+    // //   });
+    // // });
+
+    //        Navigator.pop(context);
+       
+    //     },
+    //     child:Padding(padding:EdgeInsets.symmetric(horizontal: 13),child:
+    //     AnimatedContainer(
+    //       duration: Duration(milliseconds: 1000),
+          
+    //       height: screenheight*0.15,
+    //        width: double.infinity,
+    //               //  width: isExpanded ?  screenwidth*0.2 : screenwidth ,
+
+    //       decoration: BoxDecoration(
+    //         color: const Color.fromARGB(255, 74, 25, 7),
+    //         borderRadius: BorderRadius.circular(40)
+    //       ),
+    //       child:Center(child: isExpanded ? Text('Back',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),):Text('Wait for your conformation',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),))
+    //     )
+    //    )
+
+
+    //   ),
 
        GestureDetector(
         onTap:(){
@@ -117,7 +151,8 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
        )
 
 
-      )],),)
+      )
+      ],),)
     ));
   }
 }

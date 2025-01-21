@@ -398,6 +398,7 @@ class _LogInUpPageState extends State<LogInUpPage> {
         );
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Stack(
@@ -509,6 +510,7 @@ class _LogInUpPageState extends State<LogInUpPage> {
                         SizedBox(height: screenheight * 0.053),
                         GestureDetector(
                           onTap: () async {
+                            
                             // Check if admin login credentials are correct
                             if (_emailController.text.trim() == 'admin@gmail.com' &&
                                 _passwordController.text.trim() == 'Admin@11') {
@@ -529,12 +531,13 @@ class _LogInUpPageState extends State<LogInUpPage> {
 
 
 
- QuickAlert.show(
-        context: context,
-        type: QuickAlertType.loading,
-        title: 'Logging',
-        text: 'Please Wait....',
-      );
+//  QuickAlert.show(
+//   autoCloseDuration: Duration(milliseconds: 2000),
+//         context: context,
+//         type: QuickAlertType.loading,
+//         title: 'Logging',
+//         text: 'Please Wait....',
+//       );
 
                               // User login with email and password
                               User? user = await _authService.signInWithEmailPassword(
@@ -545,6 +548,7 @@ class _LogInUpPageState extends State<LogInUpPage> {
                                 // Check if the salon is available
                                 bool isSalonOpen = await _getSalonAvailability();
                                 if (isSalonOpen) {
+                                  
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(

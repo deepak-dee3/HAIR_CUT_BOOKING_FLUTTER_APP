@@ -8,6 +8,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -527,6 +529,12 @@ class _LogInUpPageState extends State<LogInUpPage> {
 
 
 
+ QuickAlert.show(
+        context: context,
+        type: QuickAlertType.loading,
+        title: 'Logging',
+        text: 'Please Wait....',
+      );
 
                               // User login with email and password
                               User? user = await _authService.signInWithEmailPassword(

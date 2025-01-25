@@ -16,7 +16,7 @@ class Payment_Page extends StatelessWidget {
   }
 
   void openPhonePe() async {
-    final Uri phonePeUri = Uri.parse('https://phonepe.com/app'); // PhonePe link does not works
+    final Uri phonePeUri = Uri.parse('https://phonepe.com/app'); // PhonePe link does not works need to change it
 
     if (await canLaunch(phonePeUri.toString())) {
       await launch(phonePeUri.toString());

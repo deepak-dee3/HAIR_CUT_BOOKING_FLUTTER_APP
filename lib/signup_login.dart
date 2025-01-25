@@ -432,17 +432,7 @@ class UserDashboard extends StatelessWidget {
                           child: Text('History',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10,color: Color.fromARGB(255, 220, 154, 55)),)),                    
                                        
                      
-                    ],
-                                        ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-            ),
-
-    ));
-  }
-}
+                    ],),],), ),
+          )],),),
+    ));}}
 

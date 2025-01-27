@@ -20,6 +20,7 @@ class InitialPage extends StatelessWidget {
             width: screenWidth,
             child: Image.asset(
               'assets/qqqq.jpeg', // Replace with your image path
+             // 'assets/par2.jpeg',
               fit: BoxFit.cover, // Ensures the image covers the entire screen
             ),
           ),

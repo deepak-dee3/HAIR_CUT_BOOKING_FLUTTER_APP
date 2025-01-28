@@ -109,7 +109,7 @@ class _StatusOfBookingState extends State<StatusOfBooking> {
                 ),
               );
             } else {
-              return Center(child: Text('No booking history found.'));
+              return Center(child: Text('No booking history found.',style:TextStyle(color:Colors.black)));
             }
           },
         ),

@@ -67,12 +67,5 @@ class InitialPage extends StatelessWidget {
                       fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+              ],),),],),);}}
 

@@ -62,7 +62,7 @@ class InitialPage extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Get Started",
+                    "Get Started ",
                     style: TextStyle(color: Color.fromARGB(255, 220, 154, 55),
                       fontSize: 17, fontWeight: FontWeight.bold),
                   ),

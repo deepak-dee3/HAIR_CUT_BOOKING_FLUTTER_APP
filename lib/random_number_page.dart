@@ -149,8 +149,7 @@ class _RandomNumberPageState extends State<RandomNumberPage> {
           child:Center(child: Text('Wait for your conformation',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),))
         )
        )
-      )
-      ],),)
+      ) ],),)
     ));
   }
 }

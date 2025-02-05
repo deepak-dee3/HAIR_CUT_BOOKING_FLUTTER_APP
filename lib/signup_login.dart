@@ -86,6 +86,7 @@ class UserDashboard extends StatelessWidget {
       },
       child:
     Scaffold(
+      backgroundColor: Colors.white,
      // resizeToAvoidBottomInset: true,
      //backgroundColor: Color(0xFFF5F5F5),
     // backgroundColor: Color(0xFFF0F0F0),

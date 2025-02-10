@@ -115,10 +115,7 @@ int selectedSection = 0;
      
       body: ListView(
         children: [
-          SizedBox(height: screenheight*0.02,),
-
-        
-          
+          SizedBox(height: screenheight*0.02,),        
           Padding(padding: EdgeInsets.only(left: 16,right: 16),
             child: Container(
               height: screenheight*0.13,
@@ -127,17 +124,12 @@ int selectedSection = 0;
                 borderRadius: BorderRadius.circular(25),
                 color: Color(0xFF681E1E),
               ),
-              child: Align(alignment: Alignment.center,
-              
+              child: Align(alignment: Alignment.center,          
                 child: Container(
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
-                      
-
-          
-
                     ],
                   )
                 ),
@@ -291,11 +283,7 @@ int selectedSection = 0;
                       ),
                     ),
                   )
-                ],
-              ),
-            
-            ),
-          ),
+                ],),), ),
           SizedBox(height: screenheight*0.04,),
 
           Padding(padding: EdgeInsets.only(left: 16,right: 16),

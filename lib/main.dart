@@ -635,18 +635,10 @@ int selectedSection = 0;
   }
 
   Future<void> deleteYesterdayCollection() async {
-  // Get yesterday's date in the format 'yyyy-MM-dd'
   String yesterday = DateTime.now().subtract(Duration(days: 1)).toIso8601String().split('T')[0];
-
-  // Reference to the collection based on yesterday's date
   CollectionReference collection = FirebaseFirestore.instance.collection(yesterday);
-
-  // Get all documents in the collection
   QuerySnapshot snapshot = await collection.get();
-
-  // Check if the collection has documents
   if (snapshot.docs.isNotEmpty) {
-    // Iterate through the documents and delete them
     for (DocumentSnapshot doc in snapshot.docs) {
       await doc.reference.delete();
     }
@@ -1030,7 +1022,6 @@ Padding(
                 //     date: currentDate,
                 //     adminNumber: "9999999999",
                 //   ),
-
                 Navigator.of(context).pop(); // Close the dialog
 
 
@@ -1046,18 +1037,14 @@ Padding(
                   );
     },
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const curve = Curves.easeIn; // or any other curve
+      const curve = Curves.easeIn;
       var curveAnimation = CurvedAnimation(parent: animation, curve: curve);
 
       return SlideTransition(position: animation.drive(Tween(begin: Offset(1.0, 0.0), end: Offset.zero)), child: child);
     },
   ),
 );
-
-
-
-              },
-              child: Text('Book Seat', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+              },              child: Text('Book Seat', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             ),
           ],
         );
@@ -1065,13 +1052,11 @@ Padding(
     );
   }
 
-  // Generate a random number for the customer
   String _generateRandomNumber() {
     var rng = Random();
-    return (rng.nextInt(10000) + 1000).toString(); // Generate a 4-digit random number
+    return (rng.nextInt(10000) + 1000).toString(); 
   }
 
-  // Get the color of the seat based on its status
   Color _getSeatColor(String status) {
     switch (status) {
       case 'Requested':
@@ -1086,8 +1071,6 @@ Padding(
         return Colors.grey; // Pending status
     }
   }
-
-  // Widget to show the status badges (Available, Requested, etc.)
   Widget _statusBadge(String text, Color color) {
     return Row(
       children: [

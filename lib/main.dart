@@ -17,7 +17,6 @@ import 'package:hair/testing/booking_pags.dart';
 import 'package:page_transition/page_transition.dart'; 
 import 'dart:ui'; 
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -1005,7 +1004,7 @@ Padding(
               onPressed: () {
                 setState(() {
                   seats[index] = {
-                    "status": "Requested", // Change the status to Requested
+                    "status": "Requested",  // Change the status to Requested
                     "name": nameController.text,
                     "randomNumber": randomNumber, // Save the random number
                   };

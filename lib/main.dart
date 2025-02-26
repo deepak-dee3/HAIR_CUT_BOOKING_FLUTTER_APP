@@ -55,7 +55,6 @@ class AdminPage extends StatefulWidget {
   @override
   _AdminPageState createState() => _AdminPageState();
 }
-
 class _AdminPageState extends State<AdminPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String currentDate = DateTime.now().toString().substring(0, 10); // Get current date

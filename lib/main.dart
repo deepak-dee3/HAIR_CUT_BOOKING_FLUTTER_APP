@@ -171,7 +171,7 @@ int selectedSection = 0;
                           inactiveTrackColor: Colors.white,
                           activeColor: const Color.fromARGB(255, 220, 154, 55),
                                   value: isOn,
-                                  onChanged: _toggleSwitch,
+                           onChanged: _toggleSwitch,
                                 ),
                     ),
                   ),

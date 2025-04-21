@@ -41,7 +41,6 @@ class MyApp extends StatelessWidget{
         ],
       ),)),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),
       duration: 3000,
-     
       backgroundColor: Colors.white,
       pageTransitionType:PageTransitionType.leftToRight,
      

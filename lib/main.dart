@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget{
           Icon(Icons.cut , size: 35,color: const Color.fromARGB(255, 220, 154, 55),),
           Spacer(),
          // SizedBox(height: screenheight*0.02,),
-          Text('Booking System',style: TextStyle(color: Color(0xFF681E1E),fontWeight: FontWeight.bold,fontSize: 22),)
+          Text('Naturals Hair & Beauty',style: TextStyle(color: Color(0xFF681E1E),fontWeight: FontWeight.bold,fontSize: 22),)
         ],
       ),)),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),
       duration: 3000,
@@ -126,7 +126,7 @@ int selectedSection = 0;
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Hello , Buddy',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
+                      Text('Naturals Hair & Beauty',style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.bold),),
                     ],
                   )
                 ),

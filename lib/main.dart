@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget{
         children: [
           Icon(Icons.cut , size: 35,color: const Color.fromARGB(255, 220, 154, 55),),
           Spacer(),
-         // SizedBox(height: screenheight*0.02,),
           Text('Naturals Hair & Beauty',style: TextStyle(color: Color(0xFF681E1E),fontWeight: FontWeight.bold,fontSize: 22),)
         ],
       ),)),//Text('Welcome To Hair Saloon',style:TextStyle(fontWeight: FontWeight.bold ,fontSize: 15)),

@@ -87,6 +87,9 @@ class _StatusOfBookingState extends State<StatusOfBooking> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
+                              height:20,
+                              width:30,
+
                               padding: EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),

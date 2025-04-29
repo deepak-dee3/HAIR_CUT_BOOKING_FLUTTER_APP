@@ -16,7 +16,6 @@ import 'package:hair/status_of_booking.dart';
 import 'package:hair/testing/booking_pags.dart';
 import 'package:page_transition/page_transition.dart'; 
 import 'dart:ui'; 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

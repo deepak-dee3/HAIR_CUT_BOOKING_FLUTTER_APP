@@ -41,8 +41,7 @@ class MyApp extends StatelessWidget{
       duration: 3000,
       backgroundColor: Colors.white,
       pageTransitionType:PageTransitionType.leftToRight,
-     
-     
+        
     ));
     }
 

@@ -1,4 +1,4 @@
-# hair
+# Hair Salon Booking Application
 
 A new Flutter project.
 
